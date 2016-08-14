@@ -1,0 +1,12 @@
+{
+	  "version": "1.8.0",
+	    "compilerOptions": {
+		        "emitDecoratorMetadata": true,
+			    "experimentalDecorators": true,
+			        "target": "es6",
+				    "module": "commonjs"
+	    },
+    "files": [
+      "./src/entry.ts"
+    ]
+}
