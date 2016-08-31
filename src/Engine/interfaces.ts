@@ -1,5 +1,6 @@
 import {LOCATION} from '../Enums/location';
 import {DO} from '../Enums/do';
+import {HexMap} from '../Hex/interfaces';
 
 export interface Action {
   do: DO;
@@ -14,5 +15,6 @@ export interface Behaviour {
 
 export interface GameState {
   location: LOCATION;
+  hexMap: HexMap;
   behaviours: Behaviour[];
 }

@@ -1,12 +1,14 @@
 import {GameState} from '../Engine/interfaces';
-import {LOCATION} from '../Enums/location';
+import {LOCATION} from '../Enums/enums';
+import {mapRender} from '../Hex/render';
 
-const menuMarkup = `
-  <h1> GlitchSquad </h1>
-  <h2> Squad Turn Action </h2>
-  <button id="play-game">PLAY!</button>
-`;
+export function menuRender(state: GameState): string {
+ return state.location === LOCATION.MENU ? render(state) : ``;
 
-export function menuRender(state: GameState) {
-  return state.location === LOCATION.MENU ? menuMarkup : ``;
+ function render(state: GameState): string {
+   return `
+    <div class="menu-hex"> ${mapRender(state)}
+    <div>
+ `;
+ }
 }

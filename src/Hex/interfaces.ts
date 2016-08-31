@@ -1,19 +1,11 @@
-export const enum WALL {
-  FULL,
-  HALF,
-  NONE
-}
-
-export const enum SOLIDERTYPE {
-  NONE,
-  ASSALUT,
-  SOLIDER,
-  HEAVY,
-  MARKSMAN,
-}
+import {WALL, SOLDIER} from '../Enums/enums';
 
 export interface Hex {
-  walls: Wall[];
-  solider: SOLIDER;
-  letter: string;
+  walls: WALL[];
+  soldier: SOLDIER;
+  char: string;
+  sub: string;
+  hoover: string;
 }
+
+export type HexMap = Hex[][];

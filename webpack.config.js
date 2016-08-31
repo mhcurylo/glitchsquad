@@ -23,7 +23,9 @@ module.exports = {
       }
     ], 
     loaders: [
-       {test: /\.tsx?$/, loader: 'ts-loader'}
+
+       {test: /\.tsx?$/, loader: 'ts-loader'},
+       {test: /\.scss$/, loaders: ["style", "css", "sass"]}
     ]
   },
   tslint: {
