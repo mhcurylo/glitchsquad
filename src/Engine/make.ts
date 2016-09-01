@@ -16,8 +16,12 @@ export function behave (behaviours: Behaviour[], doIt: (Action) => void): void {
 
 export function makeReducer(reducers: Array<(GameState, Action) => GameState>) {
   return function(state: GameState, action: Action): GameState {
-    console.log(state);
-    return state;
+    const newState = reducers.reduce((p, c) => c(p, action), copy(state));
+    return newState;
+
+    function copy(state: GameState): GameState {
+      return Object.create(state);
+    }
   } 
 }
 

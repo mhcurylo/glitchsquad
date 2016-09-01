@@ -24,7 +24,7 @@ module.exports = {
     ], 
     loaders: [
 
-       {test: /\.tsx?$/, loader: 'ts-loader'},
+       {test: /\.tsx?$/, loader: 'babel-loader!ts-loader'},
        {test: /\.scss$/, loaders: ["style", "css", "sass"]}
     ]
   },
@@ -33,11 +33,6 @@ module.exports = {
     failOnHint: true
   },
   plugins: [
-//    new webpack.optimize.UglifyJsPlugin({
-//      compress: {
-//        warnings: false
-//      }
-//    }),
     new Copy([
       { 
         from: 'index.html'

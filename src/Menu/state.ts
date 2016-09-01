@@ -3,16 +3,19 @@ import {LOCATION, DO, WALL, SOLDIER} from '../Enums/enums';
 import {Hex} from '../Hex/interfaces';
 import {symbolHex, emptyHex} from '../Hex/hexCreate';
 
-export class MenuState implements GameState {
-   location = LOCATION.MENU;
-   hexMap = [
+const b = [7, 8, 9 ,10].map(n => clickToPlay(`hex-4-${n}`));
+const hexMap = [
     '####   ## ',
     '### Glitch',
     '##  Squad',
     '##  ',
-    '##### PLAY'
-   ].map(toHex);
-   behaviours = [7, 8, 9, 10].map(n => clickToPlay(`hex-4-${n}`));
+    '#####  PLAY'
+].map(toHex);
+
+export class MenuState implements GameState {
+   location = LOCATION.MENU;i
+   hexMap = hexMap;
+   behaviours = b; 
 }
 
 function clickToPlay(id: string): Behaviour {

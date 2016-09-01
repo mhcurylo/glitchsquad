@@ -19,10 +19,7 @@ export function symbolHex(ch: string): Hex {
 };
 
 function randomWalls(): WALL[] {
-  const a = [];
-  do a.push(oneWall());
-  while (a.length <= 6);
-  return a;
+  return Array.from(new Array(6), oneWall);
 
   function oneWall(): WALL {
     return  Math.random() > 0.88888888 ? WALL.CORRIDOR : Math.floor(Math.random()*4);  

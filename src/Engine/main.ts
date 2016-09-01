@@ -4,19 +4,12 @@ import {Game} from './game';
 import {DO} from '../Enums/do';
 import {MenuState} from '../Menu/state';
 import {menuRender} from '../Menu/render';
-
-function titleReducer(state: GameState, action: Action): GameState {
-  switch (action.do) {
-    case DO.NOT:
-      return state;
-    default: 
-      return state;
-  }
-}
+import {gameRender} from '../Game/render';
+import {menuReducer} from '../Menu/reducer';
 
 export function start(dom: any) {
   const state = new MenuState();
-  const render = makeRender([menuRender], dom);
-  const reduce = makeReducer([titleReducer]);
+  const render = makeRender([menuRender, gameRender], dom);
+  const reduce = makeReducer([menuReducer]);
   const game: Game = new Game(state, render, behave, reduce);
 }
