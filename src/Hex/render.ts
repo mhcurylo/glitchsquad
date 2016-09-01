@@ -1,4 +1,4 @@
-import {WALL, SOLDIER} from '../Enums/enums';
+import {WALL, SOLDIER, HEX} from '../Enums/enums';
 import {Hex} from './interfaces';
 import {GameState} from '../Engine/interfaces';
 
@@ -14,13 +14,31 @@ export function mapRender(state: GameState): string {
     </ol>`
 
     function hexRender(hex: Hex, lnum: number, cnum: number): string {
-      return `<li class="hex 
-	      ${hex.walls.reduce((p, n, i) => p + ' hw-' + i + '-' + '-' + n, '')}" 
+      switch (hex.type) {
+        case HEX.CHAR:
+          return   `<li class="hex ${hex.classNames ? hex.classNames : ''}  
+  	      ${hex.walls.reduce((p, n, i) => p + ' hw-' + i + '-' + n, '')}" 
 	      id="hex-${lnum}-${cnum}">
-         <div class="char">${hex.char}</div>
-         <div class="sub">${hex.sub}</div>
-         <div class="hoover">${hex.hoover}</div>
-      </li>`;
+	       ${walls(hex.walls)}
+	      ${hex.char !== ' ' ? '<div class="char">' + hex.char + '</div>' : ''}
+          </li>`;
+        case HEX.EMPTY: 
+          return  `<li class="hex empty ${hex.classNames ? hex.classNames : ''}  
+	      id="hex-${lnum}-${cnum}">
+          </li>`; 
+     }
+
+    function walls(walls: WALL[]): string {
+       return walls.reduce((p, n, i) => p + `<div class="hw hw-a-${i} hw-t-${n}"></div>`, '')
+    }
+
+//     return `<li class="hex ${hex.classNames ? hex.classNames : ''}  
+//	      ${hex.walls.reduce((p, n, i) => p + ' hw-' + i + '-' + n, '')}" 
+//	      id="hex-${lnum}-${cnum}">
+//         <div class="char">${hex.char ? hex.char : ''}</div>
+//         <div class="sub">${hex.sub ? hex.sub : ''}</div>
+//         <div class="hoover">${hex.hoover ? hex.hoover : ''}</div>
+//      </li>`;
     };
   }
 };

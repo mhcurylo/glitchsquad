@@ -1,5 +1,6 @@
 export const enum WALL {
   NOT,
-  HALF,
-  FULL
+  CORRIDOR,
+  HALFCOVER,
+  ISOLATED
 }

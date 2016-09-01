@@ -1,11 +1,13 @@
-import {WALL, SOLDIER} from '../Enums/enums';
+import {WALL, SOLDIER, HEX} from '../Enums/enums';
 
 export interface Hex {
   walls: WALL[];
-  soldier: SOLDIER;
+  type: HEX; 
+  soldier?: SOLDIER;
   char: string;
-  sub: string;
-  hoover: string;
+  classNames?: string;
+  sub?: string;
+  hoover?: string;
 }
 
 export type HexMap = Hex[][];
