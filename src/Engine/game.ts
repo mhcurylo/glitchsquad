@@ -1,4 +1,4 @@
-import {Action, Behaviour, GameState} from './interfaces';
+import {Action, Behaviour, GameState, Animation} from './interfaces';
 import {DO} from '../Enums/do';
 
 export class Game {
@@ -9,7 +9,8 @@ export class Game {
     private state: GameState, 
     private render: (state: GameState) => void, 
     private behave: (behaviours: Behaviour[], doIt: (Action) => void) => void,
-    private reducer: (state: GameState, action: Action) => GameState
+    private reducer: (state: GameState, action: Action) => GameState,
+    private animate: (animations: Animation[], doIt: (Action) => void) => void
   ) {
     this.act = this.act.bind(this);
     this.pastStates = [];
@@ -24,5 +25,6 @@ export class Game {
     console.log('!!!', state);
     this.render(state);
     this.behave(state.behaviours, this.act);
+    this.animate(state.animations, this.act);
   }
 }

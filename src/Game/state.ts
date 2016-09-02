@@ -1,11 +1,12 @@
 import {GameState, Behaviour} from '../Engine/interfaces';
 import {mapGen} from './mapGen';
-import {LOCATION} from '../Enums/enums';
+import {LOCATION, ANIME} from '../Enums/enums';
 
 export class GamePlay implements GameState {
    location = LOCATION.GAME;
    hexMap = [[]];
    behaviours = [];
+   animations = [{anime: ANIME.CHECKLEVEL, payload: {}}]
    constructor() {
      this.hexMap = mapGen();
    }

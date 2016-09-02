@@ -1,9 +1,14 @@
-import {LOCATION} from '../Enums/location';
-import {DO} from '../Enums/do';
+import {LOCATION, DO, ANIME} from '../Enums/enums';
 import {HexMap} from '../Hex/interfaces';
+
 
 export interface Action {
   do: DO;
+  payload: any;
+}
+
+export interface Animation {
+  anime: ANIME;
   payload: any;
 }
 
@@ -16,5 +21,6 @@ export interface Behaviour {
 export interface GameState {
   location: LOCATION;
   hexMap: HexMap;
+  animations: Animation[];
   behaviours: Behaviour[];
 }

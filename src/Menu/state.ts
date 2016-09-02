@@ -13,9 +13,10 @@ const hexMap = [
 ].map(toHex);
 
 export class MenuState implements GameState {
-   location = LOCATION.MENU;i
+   location = LOCATION.MENU;
    hexMap = hexMap;
    behaviours = b; 
+   animations = [];
 }
 
 function clickToPlay(id: string): Behaviour {

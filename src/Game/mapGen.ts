@@ -2,10 +2,10 @@ import {WALL, HEX} from '../Enums/enums';
 import {Hex, HexMap} from '../Hex/interfaces';
 import {randomHex} from '../Hex/hexCreate';
 
-const cords = [[[1, 0], [0, 1], [-1, 1], [-1, 0], [-1, -1], [0, -1]],
+export const cords = [[[1, 0], [0, 1], [-1, 1], [-1, 0], [-1, -1], [0, -1]],
                [[1, 0], [1, 1], [0, 1], [-1, 0], [0, -1], [1, -1]]];
 
-const size = [8, 10];
+export const size = [8, 10];
 
 export function mapGen(): HexMap {
   return trimMap(randomMap());
@@ -30,9 +30,6 @@ export function mapGen(): HexMap {
           let [y, x] = cords[li % 2][wi];
           x = x + li;
 	  y = y + hi;
-          console.log('me!', li, hi, wi);
-          console.log('he!', x,y, (wi + 3) % 6);
-
 
 	  if ((x < 0) || (y < 0) || (size[0] - 1 < x) || (size[1] - 1 < y)) {
 	     return maybeTrim(w);
@@ -40,7 +37,6 @@ export function mapGen(): HexMap {
 	  const nei = map[x][y];
 	  
           if   ((nei.type === HEX.EMPTY) || (nei.walls[(wi + 3) % 6] === WALL.NOT)) {
-	    console.log('would trim! wall, hex', nei.walls[(wi + 3) % 6] === WALL.NOT, nei.type === HEX.EMPTY, nei);
             return maybeTrim(w);
 	  }     
        	}
