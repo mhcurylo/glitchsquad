@@ -4,6 +4,6 @@ import {randomHex} from '../Hex/hexCreate';
 import {size, cords} from './mapGen';
 
 export function mapCheck(map: HexMap): boolean {
-   return false;
+   return true;
 }
 

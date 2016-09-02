@@ -1,7 +1,5 @@
 import {Hex} from './interfaces';
-import {WALL, HEX} from '../Enums/enums';
-const {floor, random} = Math;
-
+import {WALL, HEX, PLAYER} from '../Enums/enums';
 //due to hex render - if we give it ' ' the hex will not have char displayed
 
 
@@ -19,6 +17,21 @@ export function symbolHex(ch: string): Hex {
      type: ch === '#' ? HEX.EMPTY : HEX.CHAR
    }
 };
+
+export function evacHex(p: PLAYER): Hex {
+   return {
+     type: HEX.EVAC,
+     player: p,
+     walls: Array.from(new Array(6), () => WALL.HALFCOVER)
+   }
+}
+
+export function discHex(): Hex {
+  return {
+    type: HEX.DISC,
+    walls: Array.from(new Array(6), () => WALL.ISOLATED) 
+  }
+}
 
 function randomWalls(): WALL[] {
   return Array.from(new Array(6), oneWall);

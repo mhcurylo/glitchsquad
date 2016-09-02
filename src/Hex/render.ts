@@ -21,6 +21,18 @@ export function mapRender(state: GameState): string {
 	       ${walls(hex.walls)}
 	      ${hex.char !== ' ' ? '<div class="char">' + hex.char + '</div>' : ''}
 	  </li>`;
+        case HEX.EVAC: 
+	   return `<li class="hex ${hex.classNames ? hex.classNames : ''}"
+	      id="hex-${lnum}-${cnum}">
+	       ${walls(hex.walls)}
+	       <div class="evac c-p${hex.player}">evac</div>
+	  </li>`;
+        case HEX.DISC: 
+	   return `<li class="hex ${hex.classNames ? hex.classNames : ''}"
+	      id="hex-${lnum}-${cnum}">
+	       ${walls(hex.walls)}
+               <div class="evac disc">DATA</div>
+	  </li>`;
         case HEX.BASE: 
 	   return `<li class="hex ${hex.classNames ? hex.classNames : ''}"
 	      id="hex-${lnum}-${cnum}">

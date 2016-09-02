@@ -12,9 +12,9 @@ import {GamePlay} from '../Game/state';
 
 export function start(dom: any) {
   const state = new MenuState();
-  const mapTest = new GamePlay();
+//  const mapTest = new GamePlay();
   const render = makeRender([menuRender, gameRender], dom);
   const reduce = makeReducer([menuReducer, gameReducer]);
   const animate = makeAnimate([gameAnimate]);
-  const game: Game = new Game(mapTest, render, behave, reduce, animate);
+  new Game(state, render, behave, reduce, animate);
 }

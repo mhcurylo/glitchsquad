@@ -2,6 +2,7 @@ export const enum HEX {
   EMPTY,
   FULL,
   BASE,
-  SOLIDER,
-  CHAR
+  CHAR,
+  EVAC,
+  DISC
 }

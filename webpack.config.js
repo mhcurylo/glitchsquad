@@ -24,7 +24,8 @@ module.exports = {
     ], 
     loaders: [
 
-       {test: /\.tsx?$/, loader: 'babel-loader!ts-loader'},
+       {test: /\.tsx?$/, loader: 'ts-loader'},
+       //{test: /\.tsx?$/, loader: 'babel?presets[]=es2015!ts-loader'},
        {test: /\.scss$/, loaders: ["style", "css", "sass"]}
     ]
   },
@@ -35,7 +36,7 @@ module.exports = {
   plugins: [
     new Copy([
       { 
-        from: 'index.html'
+        from: 'index.html',
       }
     ])
   ]
