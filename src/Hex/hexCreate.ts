@@ -8,8 +8,8 @@ const {floor, random} = Math;
 export function randomHex(): Hex {
   return {
     walls: randomWalls(),
-    type: Math.random() > 0.70 ? HEX.EMPTY : HEX.BASE 
-  }
+    type: Math.random() > 0.85 ? HEX.EMPTY : HEX.BASE 
+  };
 }
 
 export function symbolHex(ch: string): Hex {
@@ -24,6 +24,8 @@ function randomWalls(): WALL[] {
   return Array.from(new Array(6), oneWall);
 
   function oneWall(): WALL {
-    return  Math.random() > 0.88888888 ? WALL.CORRIDOR : Math.floor(Math.random()*4);  
+    return  Math.random() > 0.6 ? WALL.CORRIDOR : 
+           (Math.random() > 0.8 ? WALL.HALFCOVER : 
+           Math.floor(Math.random()*4));  
   };
 }
