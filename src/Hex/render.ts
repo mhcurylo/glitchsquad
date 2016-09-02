@@ -16,14 +16,18 @@ export function mapRender(state: GameState): string {
     function hexRender(hex: Hex, lnum: number, cnum: number): string {
       switch (hex.type) {
         case HEX.CHAR:
-          return   `<li class="hex ${hex.classNames ? hex.classNames : ''}  
-  	      ${hex.walls.reduce((p, n, i) => p + ' hw-' + i + '-' + n, '')}" 
+          return   `<li class="hex ${hex.classNames ? hex.classNames : ''}"  
 	      id="hex-${lnum}-${cnum}">
 	       ${walls(hex.walls)}
 	      ${hex.char !== ' ' ? '<div class="char">' + hex.char + '</div>' : ''}
-          </li>`;
+	  </li>`;
+        case HEX.BASE: 
+	   return `<li class="hex ${hex.classNames ? hex.classNames : ''}"
+	      id="hex-${lnum}-${cnum}">
+	       ${walls(hex.walls)}
+	  </li>`;
         case HEX.EMPTY: 
-          return  `<li class="hex empty ${hex.classNames ? hex.classNames : ''}  
+          return  `<li class="hex empty ${hex.classNames ? hex.classNames : ''}" 
 	      id="hex-${lnum}-${cnum}">
           </li>`; 
      }

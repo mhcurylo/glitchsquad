@@ -4,7 +4,8 @@ import {GamePlay} from '../Game/state.ts';
 
 export function menuReducer(state: GameState, action: Action): GameState {
   switch (action.do) {
-    case DO.PLAYGAME: 
+    case DO.PLAYGAME:
+      console.log('new game'); 
       return new GamePlay();
     default:
       return state;

@@ -4,7 +4,7 @@ export interface Hex {
   walls: WALL[];
   type: HEX; 
   soldier?: SOLDIER;
-  char: string;
+  char?: string;
   classNames?: string;
   sub?: string;
   hoover?: string;
