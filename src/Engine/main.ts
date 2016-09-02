@@ -8,13 +8,13 @@ import {gameRender} from '../Game/render';
 import {gameAnimate} from '../Game/animate';
 import {gameReducer} from '../Game/reducer';
 import {menuReducer} from '../Menu/reducer';
-import {GamePlay} from '../Game/state';
+import {gamePlay} from '../Game/state';
 
 export function start(dom: any) {
   const state = new MenuState();
-//  const mapTest = new GamePlay();
+  const mapTest = gamePlay();
   const render = makeRender([menuRender, gameRender], dom);
   const reduce = makeReducer([menuReducer, gameReducer]);
   const animate = makeAnimate([gameAnimate]);
-  new Game(state, render, behave, reduce, animate);
+  new Game(mapTest, render, behave, reduce, animate);
 }

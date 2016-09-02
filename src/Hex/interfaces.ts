@@ -1,9 +1,10 @@
-import {WALL, SOLDIER, HEX, PLAYER} from '../Enums/enums';
+import {WALL, HEX, PLAYER} from '../Enums/enums';
+import {Soldier} from '../Soldier/interfaces';
 
 export interface Hex {
   walls: WALL[];
   type: HEX; 
-  soldier?: SOLDIER[];
+  soldiers?: Soldier[];
   char?: string;
   classNames?: string;
   sub?: string;

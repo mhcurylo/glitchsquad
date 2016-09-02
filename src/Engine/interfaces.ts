@@ -1,6 +1,6 @@
-import {LOCATION, DO, ANIME} from '../Enums/enums';
+import {LOCATION, DO, ANIME, SOLDIER, PLAYER} from '../Enums/enums';
 import {HexMap} from '../Hex/interfaces';
-
+import {Soldier} from '../Soldier/interfaces';
 
 export interface Action {
   do: DO;
@@ -23,4 +23,5 @@ export interface GameState {
   hexMap: HexMap;
   animations: Animation[];
   behaviours: Behaviour[];
+  soldiers?: Soldier[];
 }

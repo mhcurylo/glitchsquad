@@ -1,6 +1,7 @@
 import {WALL, HEX, PLAYER} from '../Enums/enums';
 import {Hex, HexMap} from '../Hex/interfaces';
 import {randomHex, discHex, evacHex} from '../Hex/hexCreate';
+import {soldierSquadie, soldierHeavy} from '../Soldier/classes';
 
 export const cords = [[[1, 0], [0, 1], [-1, 1], [-1, 0], [-1, -1], [0, -1]],
                [[1, 0], [1, 1], [0, 1], [-1, 0], [0, -1], [1, -1]]];
@@ -47,24 +48,24 @@ export function mapGen(): HexMap {
       return h;
  
       function trimWall(l, li, h, hi, w, wi) {
-	if ((w !== WALL.NOT) && (h.type !== HEX.EMPTY)) {
+	if ((w !== WALL.NOT) && (h.type !== HEX.EMPTY) && (h.type !== HEX.DISC)) {
           let [y, x] = cords[li % 2][wi];
           x = x + li;
 	  y = y + hi;
 
 	  if ((x < 0) || (y < 0) || (size[0] - 1 < x) || (size[1] - 1 < y)) {
-	     return maybeTrim(w);
+	     return maybeTrim(w, 0.2);
 	  }
-	  const nei = map[x][y];
+	  const neighbour = map[x][y];
 	  
-          if   ((nei.type === HEX.EMPTY) || (nei.walls[(wi + 3) % 6] === WALL.NOT)) {
-            return maybeTrim(w);
+          if   ((neighbour.type === HEX.EMPTY) || (neighbour.walls[(wi + 3) % 6] === WALL.NOT)) {
+            return maybeTrim(w, 0.1);
 	  }     
        	}
 	return w;
         
-        function maybeTrim(w: WALL) {
-          return Math.random() > 0.00 ? WALL.NOT : w;
+        function maybeTrim(w: WALL, chance: number) {
+	  return Math.random() > chance ? WALL.NOT : w;
         }
       };
     };

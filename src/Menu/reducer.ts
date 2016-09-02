@@ -1,12 +1,11 @@
 import {GameState, Action} from '../Engine/interfaces';
 import {DO} from '../Enums/enums';
-import {GamePlay} from '../Game/state.ts';
+import {gamePlay} from '../Game/state.ts';
 
 export function menuReducer(state: GameState, action: Action): GameState {
   switch (action.do) {
     case DO.PLAYGAME:
-      console.log('new game'); 
-      return new GamePlay();
+      return gamePlay();
     default:
       return state;
   }
