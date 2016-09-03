@@ -202,6 +202,11 @@ body {
 .s-p-1 {
   background: $green;
 }
+.s-kia {
+  outline-color: $grey;
+  background: $darkred;
+  color: $red;
+}
 .s-act {
   outline-color: $darkred;
   transition: outline-color .7s ease-out;
