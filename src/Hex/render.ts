@@ -1,7 +1,7 @@
 import {WALL, SOLDIER, HEX} from '../Enums/enums';
 import {Hex} from './interfaces';
 import {GameState} from '../Engine/interfaces';
-
+import {squadRender} from '../Soldier/render';
 
 export function mapRender(state: GameState): string {
   return `<div id="hexmap" class="hexcontainer"> 
@@ -25,18 +25,21 @@ export function mapRender(state: GameState): string {
 	   return `<li class="hex ${hex.classNames ? hex.classNames : ''}"
 	      id="hex-${lnum}-${cnum}">
 	       ${walls(hex.walls)}
+               ${squadRender(hex.soldiers)}
 	       <div class="evac c-p${hex.player}">evac</div>
 	  </li>`;
         case HEX.DISC: 
 	   return `<li class="hex ${hex.classNames ? hex.classNames : ''}"
 	      id="hex-${lnum}-${cnum}">
 	       ${walls(hex.walls)}
+               ${squadRender(hex.soldiers)}
                <div class="evac disc">DATA</div>
 	  </li>`;
         case HEX.BASE: 
 	   return `<li class="hex ${hex.classNames ? hex.classNames : ''}"
 	      id="hex-${lnum}-${cnum}">
 	       ${walls(hex.walls)}
+               ${squadRender(hex.soldiers)}
 	  </li>`;
         case HEX.EMPTY: 
           return  `<li class="hex empty ${hex.classNames ? hex.classNames : ''}" 

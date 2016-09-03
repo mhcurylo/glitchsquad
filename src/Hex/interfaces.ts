@@ -4,7 +4,7 @@ import {Soldier} from '../Soldier/interfaces';
 export interface Hex {
   walls: WALL[];
   type: HEX; 
-  soldiers?: Soldier[];
+  soldiers: Soldier[];
   char?: string;
   classNames?: string;
   sub?: string;

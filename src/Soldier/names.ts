@@ -1,0 +1,1 @@
+export const NAMES = 'Alice,Artur,Ben,Bony,Chris,Clara,Dave,Daisy,Eugene,Elisa,Frank,Faye,Glen,Gene,Gideon,Ghandi,Henry,Hanna,Izac,Ida,Jack,Julia,Kevin,Kate,Lee,Lena,Matt,Martha,Nick,Nina,Odin,Olga,Pete,Pati,Ron,Rose,Stan,Suzie,Tom,Tracy,Uma,Ugo,Wayne,Wanda,Xena,Xavier,Yuri,Yara,Zack,Zoe';

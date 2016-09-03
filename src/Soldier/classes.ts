@@ -1,5 +1,11 @@
 import {SKILL, SOLDIER, PLAYER} from '../Enums/enums';
 import {Soldier} from './interfaces';
+import {NAMES} from './names';
+const n = NAMES.split(',');
+
+function getName() {
+  return n[Math.floor(Math.random()*n.length)];
+}
 
 export function soldierSquadie (player: PLAYER, name: string): Soldier {
   return {
@@ -11,7 +17,8 @@ export function soldierSquadie (player: PLAYER, name: string): Soldier {
     KIA: false,
     skills: [SKILL.MOVE, SKILL.SHOOT_RIFLE, SKILL.OPEN, SKILL.GRAB_DISC, SKILL.SKIP],
     player: player, 
-    name: name
+    name: getName(),
+    active: false
   }
 }
 
@@ -25,6 +32,7 @@ export function soldierHeavy (player: PLAYER, name: string): Soldier {
     KIA: false,
     skills: [SKILL.MOVE, SKILL.RUN, SKILL.SHOOT_HEAVY, SKILL.OPEN, SKILL.GRAB_DISC, SKILL.SKIP],
     player: player, 
-    name: name
+    name: getName(),
+    active: false
   }
 }

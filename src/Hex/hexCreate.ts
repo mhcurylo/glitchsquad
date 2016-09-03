@@ -6,6 +6,7 @@ import {WALL, HEX, PLAYER} from '../Enums/enums';
 export function randomHex(): Hex {
   return {
     walls: randomWalls(),
+    soldiers: [],
     type: Math.random() > 0.85 ? HEX.EMPTY : HEX.BASE 
   };
 }
@@ -14,6 +15,7 @@ export function symbolHex(ch: string): Hex {
    return {
      char: ch,
      walls: randomWalls(),
+     soldiers: [],
      type: ch === '#' ? HEX.EMPTY : HEX.CHAR
    }
 };
@@ -22,6 +24,7 @@ export function evacHex(p: PLAYER): Hex {
    return {
      type: HEX.EVAC,
      player: p,
+     soldiers: [],
      walls: Array.from(new Array(6), () => WALL.HALFCOVER)
    }
 }
@@ -29,6 +32,7 @@ export function evacHex(p: PLAYER): Hex {
 export function discHex(): Hex {
   return {
     type: HEX.DISC,
+    soldiers: [],
     walls: Array.from(new Array(6), () => WALL.ISOLATED) 
   }
 }

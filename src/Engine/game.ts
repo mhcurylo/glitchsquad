@@ -20,8 +20,8 @@ export class Game {
   
   private act(action: Action): void {
     const state = this.reducer(this.state, action);
-    this.pastStates.push(state);
-    this.pastActions.push(action);
+//    this.pastStates.push(state);
+//    this.pastActions.push(action);
     console.log('!!!', state);
     this.render(state);
     this.behave(state.behaviours, this.act);

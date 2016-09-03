@@ -7,12 +7,16 @@ export function createSquads(state: GameState): GameState {
   return newSquadToState(PLAYER.ONE, newSquadToState(PLAYER.TWO, state)); 
 
   function newSquadToState(player: PLAYER, state: GameState): GameState {
-    const squad = createSquad(player);
-    state.soldiers = state.soldiers.concat(squad);
+    const squad = createSquad(player).sort(sortSoldiers);
+    state.soldiers = state.soldiers.concat(squad).sort(sortSoldiers);
     state.hexMap.forEach(l => l.forEach(h => h.player === player ? h.soldiers = squad : ''));
 
     return state;
-    
+
+    function sortSoldiers(a: Soldier, b: Soldier): number {
+      return b.initiative - a.initiative;
+    }
+
     function createSquad(player: PLAYER): Soldier[] {
       return [soldierSquadie(player, 'S1'), 
         soldierSquadie(player, 'S2'),
