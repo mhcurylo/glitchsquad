@@ -10,6 +10,8 @@ export interface Hex {
   sub?: string;
   hoover?: string;
   player?: PLAYER;
+  x: number;
+  y: number;
 }
 
 export type HexMap = Hex[][];

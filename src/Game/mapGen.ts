@@ -33,9 +33,10 @@ export function mapGen(): HexMap {
     const d = place[0];
     const p1 = place[pop ? 1 : 2];
     const p2 = place[pop ? 2 : 1]; 
-    map[d[0]][d[1]] = discHex();
-    map[p1[0]][p1[1]] = evacHex(PLAYER.ONE);
-    map[p2[0]][p2[1]] = evacHex(PLAYER.TWO);
+    map[d[0]][d[1]] = discHex(d[1], d[0]);
+    map[p1[0]][p1[1]] = evacHex(p1[1], p1[0], PLAYER.ONE);
+    map[p2[0]][p2[1]] = evacHex(p2[1], p2[0], PLAYER.TWO);
+    console.log('p1', p1, 'p2', p2);    
 
     return map;   
   }
@@ -49,14 +50,14 @@ export function mapGen(): HexMap {
  
       function trimWall(l, li, h, hi, w, wi) {
 	if ((w !== WALL.NOT) && (h.type !== HEX.EMPTY) && (h.type !== HEX.DISC)) {
-          let [y, x] = cords[li % 2][wi];
-          x = x + li;
-	  y = y + hi;
+          let [x, y] = cords[li % 2][wi];
+          y = y + li;
+	  x = x + hi;
 
-	  if ((x < 0) || (y < 0) || (size[0] - 1 < x) || (size[1] - 1 < y)) {
+	  if ((y < 0) || (x < 0) || (size[0] - 1 < y) || (size[1] - 1 < x)) {
 	     return maybeTrim(w, 0.2);
 	  }
-	  const neighbour = map[x][y];
+	  const neighbour = map[y][x];
 	  
           if   ((neighbour.type === HEX.EMPTY) || (neighbour.walls[(wi + 3) % 6] === WALL.NOT)) {
             return maybeTrim(w, 0.1);

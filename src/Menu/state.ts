@@ -10,7 +10,7 @@ const hexMap = [
     '##  Squad',
     '##  ',
     '#####  PLAY'
-].map(toHex);
+].map((l, y) => toHex(y, l));
 
 export class MenuState implements GameState {
    location = LOCATION.MENU;
@@ -30,6 +30,6 @@ function clickToPlay(id: string): Behaviour {
   };
 }
 
-function toHex(line: string): Hex[] {
-  return line.split('').map(symbolHex);
+function toHex(y: number, line: string): Hex[] {
+  return line.split('').map((s, x) => symbolHex(x, y, s));
 }

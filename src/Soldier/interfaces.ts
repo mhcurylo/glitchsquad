@@ -12,4 +12,6 @@ export interface Soldier {
   skills: SKILL[];
   active: boolean;
   classNames?: string;
+  x: number,
+  y: number
 }

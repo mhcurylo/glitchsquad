@@ -1,11 +1,11 @@
 $grey: #353531;
 $lightgrey: #959581;
-$red: #D90368;
-$yellow: #F3A712;
+$red: #F90338;
+$yellow: #F3f302;
 $blue: #23395B;
 $white: #F2F7F2;
-$darkred: #8E5572;
-$green: #23CE6B;
+$darkred: #CE2232;
+$green: #23f93B;
 
 body {
   background-color: $blue;
@@ -205,6 +205,9 @@ body {
     .s-name {
       font-size: 8px;
     }
+  }
+  .soldier.s-act {
+    outline: 2px $darkred solid; 
   }
 }
 
