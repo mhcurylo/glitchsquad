@@ -19,7 +19,7 @@ export function gameRender(state: GameState): string {
     <div class="game-play">
       <div class="info-header">HOT SEAT</div>
       <div class="game-hex"> ${mapRender(state)}</div>
-      <div class="squads-display"> ${squadRender(state.soldiers)}</div>
+      <div class="squads-display"> ${squadRender(state.soldiers, state, true)}</div>
     </div>
  `;
  }

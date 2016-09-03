@@ -156,7 +156,8 @@ body {
   height: 100px;
 }
 
-.soldier {
+.soldier { 
+  position: relative;
   outline: 4px $lightgrey solid; 
   height: 104px;
   width: 96px;
@@ -172,6 +173,27 @@ body {
   .s-name {
     font-size: 32px;
     line-height: 0.9;
+  }
+  .acts {
+    position: absolute;
+    width: 96px;
+    top: 118px;
+    font-weight: 600;
+    font-size: 18px;
+    text-align: center;
+    div { 
+     margin-top: 4px;
+     margin-bottom: 4px;
+     padding: 2px;
+     background: $white;
+     color: $grey;
+     outline: 2px $grey solid;
+     transition: all 0.5;
+    }
+    div:hover {
+      color: $darkred;
+      cursor: pointer;
+    }
   }
 }
 .s-p-0 {

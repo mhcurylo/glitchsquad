@@ -18,9 +18,9 @@ export function soldierSquadie (player: PLAYER, name: string): Soldier {
     skills: [SKILL.MOVE, SKILL.SHOOT_RIFLE, SKILL.OPEN, SKILL.GRAB_DISC, SKILL.SKIP],
     player: player, 
     name: getName(),
-    active: false,
     x: 1,
-    y: 1
+    y: 1,
+    i: 0
   }
 }
 
@@ -35,8 +35,8 @@ export function soldierHeavy (player: PLAYER, name: string): Soldier {
     skills: [SKILL.MOVE, SKILL.RUN, SKILL.SHOOT_HEAVY, SKILL.OPEN, SKILL.GRAB_DISC, SKILL.SKIP],
     player: player, 
     name: getName(),
-    active: false,
     x: 1,
-    y: 1
+    y: 1,
+    i: 0
   }
 }

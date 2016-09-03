@@ -4,7 +4,7 @@ import {soldierSquadie, soldierHeavy} from './classes';
 import {GameState} from '../Engine/interfaces';
 
 export function createSquads(state: GameState): GameState {
-  return setActive(placeSoldiers(newSquadToState(PLAYER.ONE, newSquadToState(PLAYER.TWO, state))), 0); 
+  return setIndexes(placeSoldiers(newSquadToState(PLAYER.ONE, newSquadToState(PLAYER.TWO, state))), 0); 
 
   function newSquadToState(player: PLAYER, state: GameState): GameState {
     const squad = createSquad(player).sort(sortSoldiers);
@@ -35,7 +35,7 @@ export function placeSoldiers(state: GameState): GameState {
    return state;
 }
 
-export function setActive(state: GameState, num: number): GameState {
-   state.soldiers.forEach((s, si) => si === num ? s.active = true : s.active = false);
+export function setIndexes(state: GameState, num: number): GameState {
+   state.soldiers.forEach((s, si) => s.i = si);
    return state;
 }

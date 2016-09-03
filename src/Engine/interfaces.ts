@@ -24,4 +24,7 @@ export interface GameState {
   animations: Animation[];
   behaviours: Behaviour[];
   soldiers?: Soldier[];
+  active?: number;
+  evac?: number[][];
+  disc?: number[];
 }

@@ -25,21 +25,21 @@ export function mapRender(state: GameState): string {
 	   return `<li class="hex ${hex.classNames ? hex.classNames : ''}"
 	      id="hex-${lnum}-${cnum}">
 	       ${walls(hex.walls)}
-               ${squadRender(hex.soldiers)}
+               ${squadRender(hex.soldiers, state)}
 	       <div class="evac c-p${hex.player}">evac</div>
 	  </li>`;
         case HEX.DISC: 
 	   return `<li class="hex ${hex.classNames ? hex.classNames : ''}"
 	      id="hex-${lnum}-${cnum}">
 	       ${walls(hex.walls)}
-               ${squadRender(hex.soldiers)}
+               ${squadRender(hex.soldiers, state)}
                <div class="evac disc">DATA</div>
 	  </li>`;
         case HEX.BASE: 
 	   return `<li class="hex ${hex.classNames ? hex.classNames : ''}"
 	      id="hex-${lnum}-${cnum}">
 	       ${walls(hex.walls)}
-               ${squadRender(hex.soldiers)}
+               ${squadRender(hex.soldiers, state)}
 	  </li>`;
         case HEX.EMPTY: 
           return  `<li class="hex empty ${hex.classNames ? hex.classNames : ''}" 

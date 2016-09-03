@@ -26,5 +26,6 @@ export class Game {
     this.render(state);
     this.behave(state.behaviours, this.act);
     this.animate(state.animations, this.act);
+    state.animations = [];
   }
 }
