@@ -32,7 +32,7 @@ export function soldierHeavy (player: PLAYER, name: string): Soldier {
     movesPerTurn: 1,
     initiative: 3 + Math.random()*3,
     KIA: false,
-    skills: [SKILL.MOVE, SKILL.RUN, SKILL.SHOOT_HEAVY, SKILL.OPEN, SKILL.GRAB_DISC, SKILL.SKIP],
+    skills: [SKILL.MOVE, SKILL.SHOOT_HEAVY, SKILL.OPEN, SKILL.GRAB_DISC, SKILL.SKIP],
     player: player, 
     name: getName(),
     x: 1,

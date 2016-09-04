@@ -2,7 +2,8 @@ import {GameState, Action, Behaviour} from '../Engine/interfaces';
 import {DO, ANIME, SKILL} from '../Enums/enums';
 import {mapGen} from './mapGen';
 import {mapCheck} from './mapCheck';
-import {skillBehave} from '../Soldier/skillBehave';
+import {updateBehaviour} from '../Soldier/skillBehave';
+import {placeSoldiers} from '../Soldier/squad';
 
 export function gameReducer(state: GameState, action: Action): GameState {
   switch (action.do) {
@@ -15,6 +16,8 @@ export function gameReducer(state: GameState, action: Action): GameState {
       return state;
     case DO.SKIP:
       return nextSoldier(state);
+    case DO.MOVE:
+      return moveSoldier(action.payload.x, action.payload.y, state);
     default:
       return state;
   }
@@ -25,11 +28,16 @@ export function nextSoldier(state: GameState): GameState {
   const soldier = state.soldiers[state.active];
   if (soldier.KIA === true) {
     state.animations.push({anime: ANIME.DELAY200, payload: {do: DO.SKIP, payload: {}}});
-    state.behaviours = [];
   } else {
     soldier.moves = soldier.movesPerTurn;
-    state.behaviours = soldier.skills.reduce((p, c) => p.concat(skillBehave(c, soldier, state)), []).filter(b => b);
   }
 
-  return state;
+  return updateBehaviour(state);
 };
+
+export function moveSoldier(x, y, state: GameState): GameState {
+  const s = state.soldiers[state.active];
+  s.x = x;
+  s.y = y;
+  return updateBehaviour(placeSoldiers(state));
+}

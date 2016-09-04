@@ -10,40 +10,40 @@ export function mapRender(state: GameState): string {
 
   function lineRender(line: Hex[], lnum: number): string {
     return `<ol class="hexline hexline-${lnum % 2 ? 'even' : 'odd'}"> 
-     ${line.reduce((p, n, i) => p + hexRender(n, lnum, i), '')} 
+     ${line.reduce((p, n) => p + hexRender(n), '')} 
     </ol>`
 
-    function hexRender(hex: Hex, lnum: number, cnum: number): string {
+    function hexRender(hex: Hex): string {
       switch (hex.type) {
         case HEX.CHAR:
           return   `<li class="hex ${hex.classNames ? hex.classNames : ''}"  
-	      id="hex-${lnum}-${cnum}">
+	      id="hex-${hex.x}-${hex.y}">
 	       ${walls(hex.walls)}
 	      ${hex.char !== ' ' ? '<div class="char">' + hex.char + '</div>' : ''}
 	  </li>`;
         case HEX.EVAC: 
 	   return `<li class="hex ${hex.classNames ? hex.classNames : ''}"
-	      id="hex-${lnum}-${cnum}">
+	      id="hex-${hex.x}-${hex.y}">
 	       ${walls(hex.walls)}
                ${squadRender(hex.soldiers, state)}
 	       <div class="evac c-p${hex.player}">evac</div>
 	  </li>`;
         case HEX.DISC: 
 	   return `<li class="hex ${hex.classNames ? hex.classNames : ''}"
-	      id="hex-${lnum}-${cnum}">
+	      id="hex-${hex.x}-${hex.y}">
 	       ${walls(hex.walls)}
                ${squadRender(hex.soldiers, state)}
                <div class="evac disc">DATA</div>
 	  </li>`;
         case HEX.BASE: 
 	   return `<li class="hex ${hex.classNames ? hex.classNames : ''}"
-	      id="hex-${lnum}-${cnum}">
+	      id="hex-${hex.x}-${hex.y}">
 	       ${walls(hex.walls)}
                ${squadRender(hex.soldiers, state)}
 	  </li>`;
         case HEX.EMPTY: 
           return  `<li class="hex empty ${hex.classNames ? hex.classNames : ''}" 
-	      id="hex-${lnum}-${cnum}">
+	      id="hex-${hex.x}-${hex.y}">
           </li>`; 
      }
 

@@ -1,4 +1,4 @@
-import {WALL, HEX, PLAYER} from '../Enums/enums';
+import {WALL, HEX, PLAYER, SKILL} from '../Enums/enums';
 import {Soldier} from '../Soldier/interfaces';
 
 export interface Hex {
@@ -10,6 +10,7 @@ export interface Hex {
   sub?: string;
   hoover?: string;
   player?: PLAYER;
+  acts?: SKILL[];
   x: number;
   y: number;
 }

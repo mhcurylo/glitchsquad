@@ -2,5 +2,6 @@ export const enum DO {
   NOT,
   PLAYGAME,
   CHECKLEVEL,
-  SKIP
+  SKIP,
+  MOVE
 }
