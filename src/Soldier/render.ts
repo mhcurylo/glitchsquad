@@ -16,15 +16,16 @@ export function squadRender(soldiers: Soldier[], state: GameState, full?: boolea
      <div class="s-code">${soldier.code}</div>
      <div class="s-name">${soldier.name}</div>
      ${(full && act) ? '<div class="s-player"> P' + (soldier.player + 1) + '</div>' : ''}
-     ${(full && act && !soldier.KIA) ? acts() : ''}
+     ${(full && act && !soldier.KIA && soldier.moves) ? acts() : ''}
     </div>`; 
 
     function acts() {
       return `
      <div class="acts">
+       <div class="ap">AP: ${soldier.moves}/${soldier.movesPerTurn}</div>
        <div id="skip-${soldier.i}">SKIP</div>
        ${on(state.disc) ? '<div class="s-action">GRAB</div>' : ''}
-       ${(on(state.disc) && (state.evac[soldier.player])) ? '<div class="s-action">EVAC</div>' : ''}
+       ${(on(state.disc) && (on(state.evac[soldier.player]))) ? '<div class="s-action">EVAC</div>' : ''}
      </div>
     `;
       function on(l: number[]): boolean {

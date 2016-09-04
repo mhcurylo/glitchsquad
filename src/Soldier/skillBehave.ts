@@ -16,8 +16,14 @@ function skip(state: GameState): GameState {
 };
   
 function moves(state: GameState): GameState {
-  const {x, y} = state.soldiers[state.active];
-  const movxy = <{x: number, y: number}[]>Array.from(new Array(6), (a, i) => movesTo(x, y, i, state.hexMap)).filter(a => !!a); 
+  const {x, y, KIA, moves} = state.soldiers[state.active];
+  
+    
+
+
+  const movxy = ((!KIA) && (moves)) ? 
+    <{x: number, y: number}[]>Array.from(new Array(6), (a, i) => movesTo(x, y, i, state.hexMap)).filter(a => !!a)
+    : []; 
     
   movxy.forEach(m => {
     const mb = moveBehave(m.x, m.y);

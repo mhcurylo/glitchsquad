@@ -27,17 +27,33 @@ export function nextSoldier(state: GameState): GameState {
   state.active = (state.active + 1) % state.soldiers.length;
   const soldier = state.soldiers[state.active];
   if (soldier.KIA === true) {
-    state.animations.push({anime: ANIME.DELAY200, payload: {do: DO.SKIP, payload: {}}});
+    soldier.moves = 0;
   } else {
     soldier.moves = soldier.movesPerTurn;
   }
-
-  return updateBehaviour(state);
+  return soldier.KIA ? forceSkip(updateBehaviour(state)) : updateBehaviour(state);
 };
 
-export function moveSoldier(x, y, state: GameState): GameState {
+function moveSoldier(x, y, state: GameState): GameState {
   const s = state.soldiers[state.active];
   s.x = x;
   s.y = y;
-  return updateBehaviour(placeSoldiers(state));
+  return updateBehaviour(eatAP(placeSoldiers(state)));
+}
+
+function eatAP(state: GameState): GameState {
+  const s = state.soldiers[state.active];
+  s.moves = s.moves - 1;
+  if (s.moves) {
+    return state;
+  } else {
+    return forceSkip(state);
+  }
+}
+
+
+function forceSkip(state: GameState): GameState { 
+    state.behaviours = [];
+    state.animations.push({anime: ANIME.DELAY200, payload: {do: DO.SKIP, payload: {}}});
+    return state;
 }

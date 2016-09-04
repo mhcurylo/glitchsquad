@@ -242,7 +242,7 @@ body {
      outline: 2px $grey solid;
      transition: all 0.5;
     }
-    div:hover {
+    div:hover:not(.ap) {
       color: $darkred;
       cursor: pointer;
     }
