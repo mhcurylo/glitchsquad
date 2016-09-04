@@ -14,6 +14,7 @@ export interface Animation {
 
 export interface Behaviour {
   display?: string;
+  color?: string;
   id: string;
   event: string;
   action: Action

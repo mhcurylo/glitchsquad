@@ -3,5 +3,6 @@ export const enum DO {
   PLAYGAME,
   CHECKLEVEL,
   SKIP,
-  MOVE
+  MOVE,
+  HACK
 }

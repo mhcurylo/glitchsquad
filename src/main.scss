@@ -195,6 +195,9 @@ body {
 .hex .h-act.p1 {
   background: $green;
 }
+.hex .h-act.darkgrey {
+  background: $grey;
+}
 .hex .h-act:hover {
   background: $lightgrey;
   span{
@@ -301,4 +304,3 @@ body {
     outline: 2px $darkred solid; 
   }
 }
-

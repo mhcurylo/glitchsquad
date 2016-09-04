@@ -2,28 +2,61 @@ import {GameState, Action, Behaviour} from '../Engine/interfaces';
 import {DO, ANIME, SKILL} from '../Enums/enums';
 import {Soldier} from './interfaces';
 import {Hex, HexMap} from '../Hex/interfaces';
-import {getCords, canMove} from '../Game/mapCheck';
+import {getCords, canMove, canOpen} from '../Game/mapCheck';
+import {HackWallData} from '../Game/interfaces';
 
 export function updateBehaviour(state: GameState): GameState {
   state.behaviours = [];
   state.hexMap.forEach(l => l.forEach(h => h.acts = []));
-  return moves(skip(state));
+  return open(moves(skip(state)));
 };
 
 function skip(state: GameState): GameState {
-  state.behaviours.push({id: `skip-${state.active}`, display: 'SKIP',  event: 'onclick', action: {do: DO.SKIP, payload: {}}});
+  const {KIA, moves, skills} = state.soldiers[state.active];
+  ((!KIA) && (moves) && (skills.indexOf(SKILL.SKIP) > 0)) ? 
+  state.behaviours.push({id: `skip-${state.active}`, display: 'SKIP',  event: 'onclick', action: {do: DO.SKIP, payload: {}}})
+  : '';
   return state;
 };
+
+function open(state: GameState): GameState {
+  const {x, y, KIA, moves, skills} = state.soldiers[state.active];
+  if ((KIA) || (!moves) || (skills.indexOf(SKILL.SKIP) === -1)) {
+    return state;
+  }
+
+  const openxy = <HackWallData[]>Array.from(new Array(6), (a, d) => canOpen(x, y, d, state.hexMap)).filter(a => !!a);
   
+  openxy.forEach(hwd => {
+    const ob = openBehave(hwd);
+    state.behaviours.push(ob);
+    state.hexMap[hwd.dy][hwd.dx].acts.push(ob);
+  });
+
+  return state;
+
+  function openBehave (hwd: HackWallData): Behaviour {
+    return {
+      id: `hex-${x}-${y}-${DO.HACK}`,
+      display: 'HACK',
+      color: 'darkgrey',
+      event: 'onclick',
+       action: {
+	 do: DO.HACK,
+         payload: {
+          hwd: hwd
+        } 
+      }
+    }
+  };
+};
+
 function moves(state: GameState): GameState {
-  const {x, y, KIA, moves} = state.soldiers[state.active];
-  
-    
-
-
-  const movxy = ((!KIA) && (moves)) ? 
-    <{x: number, y: number}[]>Array.from(new Array(6), (a, i) => movesTo(x, y, i, state.hexMap)).filter(a => !!a)
-    : []; 
+  const {x, y, KIA, moves, skills, player} = state.soldiers[state.active];
+  if ((KIA) || (!moves) || (skills.indexOf(SKILL.SKIP) === -1)) {
+    return state;
+  }
+  const movxy = <{x: number, y: number}[]>Array.from(new Array(6), (a, i) => movesTo(x, y, i, state.hexMap)).filter(a => !!a);
     
   movxy.forEach(m => {
     const mb = moveBehave(m.x, m.y);
@@ -43,6 +76,7 @@ function moves(state: GameState): GameState {
     return {
       id: `hex-${x}-${y}-${DO.MOVE}`,
       display: 'MOVE',
+      color: `p${player}`,
       event: 'onclick',
        action: {
 	 do: DO.MOVE,

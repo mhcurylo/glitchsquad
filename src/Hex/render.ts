@@ -26,7 +26,7 @@ export function mapRender(state: GameState): string {
 	  </li>`;
       function acts(behaviours: Behaviour[]): string {
 	return `<div class="h-acts l${behaviours.length}">`+ behaviours.reduce((p, c, i) => p + 
-        `<div class="h-act p${state.soldiers[state.active].player}" 
+	`<div class="h-act ${c.color}" 
 	 id="${c.id}"><span>${c.display}</span></div>
         `, '') + '</div>';
       }
