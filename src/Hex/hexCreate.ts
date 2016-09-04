@@ -27,14 +27,14 @@ export function evacHex(x: number, y: number, p: PLAYER): Hex {
   const h = aHex(x, y);
   h.type = HEX.EVAC;
   h.player = p;
-  h.walls = wallType(WALL.HALFCOVER);
+  h.walls = wallType(WALL.DOOROPEN);
   return h;
 }
 
 export function discHex(x: number, y: number): Hex {
   const h = aHex(x, y);
   h.type = HEX.DISC;
-  h.walls = wallType(WALL.ISOLATED);
+  h.walls = wallType(WALL.DOORCLOSED);
   return h; 
 }
 
@@ -47,7 +47,7 @@ function randomWalls(): WALL[] {
 
   function oneWall(): WALL {
     return  Math.random() > 0.6 ? WALL.CORRIDOR : 
-           (Math.random() > 0.8 ? WALL.HALFCOVER : 
+           (Math.random() > 0.8 ? WALL.DOOROPEN :
            Math.floor(Math.random()*4));  
   };
 }

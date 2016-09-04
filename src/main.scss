@@ -78,16 +78,16 @@ body {
   transform: rotate(300deg);
 }
 
-.hw-t-0 {
+.hw-t-3 {
   height: 0px;
   width: 0px;
   outline-width: 0px;
 }
-.hw-t-2 {
+.hw-t-1 {
   border-top: 5px solid $lightgrey;
   height: 40px;
 }
-.hw-t-3 {
+.hw-t-2 {
   border-top: 5px solid $grey;
   height: 40px;
 }
@@ -125,7 +125,6 @@ body {
 .disc {
   background: $red;
 }
-
 .hex .char {
   z-index: 2;
   position: absolute;
@@ -148,9 +147,62 @@ body {
 .hex .sub {
   position: absolute;
 }
-.hex .hoover {
+.hex .h-acts {
   position: absolute;
+  height: 21px;
+  width: 21px;
+  top: 30px;
+  left: 0px;
+  color: $lightgrey;
+  z-index: 7;
+  font-size: 12px;
+  transform: rotate(-90deg);
+  .m {
+    display: inline-block;
+    height: 1px;
+    width: 2px;    
+  }
 }
+.hex .h-act {
+  z-index: 10;
+  display: inline-block;
+  border: $lightgrey 1px solid;
+  width: 16px;
+  height: 16px;
+  border-radius: 8px;
+  margin: 1px;
+  span {
+    display: none;
+    position: absolute;
+    width: 60px;
+    font-weight: 600;
+    top: 20px;
+    left: -19px;
+    text-align: center;
+  }
+}
+.hex .h-acts.l2 {
+  width: 43px;
+  left: -12px;
+  top: 29px;
+  span {
+    left: -8px;
+  }
+}
+.hex .h-act.p0 {
+  background: $yellow;
+}
+.hex .h-act.p1 {
+  background: $green;
+}
+.hex .h-act:hover {
+  background: $lightgrey;
+  span{
+    display: inline;
+  }
+}
+
+
 .squad-display {
   width: 1200px;
   height: 100px;

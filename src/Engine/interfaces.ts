@@ -13,6 +13,7 @@ export interface Animation {
 }
 
 export interface Behaviour {
+  display?: string;
   id: string;
   event: string;
   action: Action

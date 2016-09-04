@@ -1,6 +1,6 @@
-import {WALL, SOLDIER, HEX} from '../Enums/enums';
+import {WALL, SOLDIER, HEX, SKILL} from '../Enums/enums';
 import {Hex} from './interfaces';
-import {GameState} from '../Engine/interfaces';
+import {GameState, Behaviour} from '../Engine/interfaces';
 import {squadRender} from '../Soldier/render';
 
 export function mapRender(state: GameState): string {
@@ -14,51 +14,27 @@ export function mapRender(state: GameState): string {
     </ol>`
 
     function hexRender(hex: Hex): string {
-      switch (hex.type) {
-        case HEX.CHAR:
-          return   `<li class="hex ${hex.classNames ? hex.classNames : ''}"  
+      return `<li class="hex ${hex.type === HEX.EMPTY ? 'empty' : ''}  
+                     ${hex.classNames ? hex.classNames : ''}"
 	      id="hex-${hex.x}-${hex.y}">
-	       ${walls(hex.walls)}
-	      ${hex.char !== ' ' ? '<div class="char">' + hex.char + '</div>' : ''}
-	  </li>`;
-        case HEX.EVAC: 
-	   return `<li class="hex ${hex.classNames ? hex.classNames : ''}"
-	      id="hex-${hex.x}-${hex.y}">
-	       ${walls(hex.walls)}
+	       ${hex.type !== HEX.EMPTY ? walls(hex.walls) : ''}
                ${squadRender(hex.soldiers, state)}
-	       <div class="evac c-p${hex.player}">evac</div>
+	       ${(hex.type === HEX.CHAR) && (hex.char !== ' ') ? '<div class="char">' + hex.char + '</div>' : ''}
+	       ${hex.type === HEX.DISC ? '<div class="evac disc">DATA</div>' : ''}
+	       ${hex.type === HEX.EVAC ? '<div class="evac c-p' + hex.player + '">evac</div>' : ''}
+	       ${acts(hex.acts)}
 	  </li>`;
-        case HEX.DISC: 
-	   return `<li class="hex ${hex.classNames ? hex.classNames : ''}"
-	      id="hex-${hex.x}-${hex.y}">
-	       ${walls(hex.walls)}
-               ${squadRender(hex.soldiers, state)}
-               <div class="evac disc">DATA</div>
-	  </li>`;
-        case HEX.BASE: 
-	   return `<li class="hex ${hex.classNames ? hex.classNames : ''}"
-	      id="hex-${hex.x}-${hex.y}">
-	       ${walls(hex.walls)}
-               ${squadRender(hex.soldiers, state)}
-	  </li>`;
-        case HEX.EMPTY: 
-          return  `<li class="hex empty ${hex.classNames ? hex.classNames : ''}" 
-	      id="hex-${hex.x}-${hex.y}">
-          </li>`; 
-     }
+      function acts(behaviours: Behaviour[]): string {
+	return `<div class="h-acts l${behaviours.length}">`+ behaviours.reduce((p, c, i) => p + 
+        `<div class="h-act p${state.soldiers[state.active].player}" 
+	 id="${c.id}"><span>${c.display}</span></div>
+        `, '') + '</div>';
+      }
 
-    function walls(walls: WALL[]): string {
-       return walls.reduce((p, n, i) => p + `<div class="hw hw-a-${i} hw-t-${n}"></div>`, '')
+      function walls(walls: WALL[]): string {
+         return walls.reduce((p, n, i) => p + `<div class="hw hw-a-${i} hw-t-${n}"></div>`, '')
+      }
     }
-
-//     return `<li class="hex ${hex.classNames ? hex.classNames : ''}  
-//	      ${hex.walls.reduce((p, n, i) => p + ' hw-' + i + '-' + n, '')}" 
-//	      id="hex-${lnum}-${cnum}">
-//         <div class="char">${hex.char ? hex.char : ''}</div>
-//         <div class="sub">${hex.sub ? hex.sub : ''}</div>
-//         <div class="hoover">${hex.hoover ? hex.hoover : ''}</div>
-//      </li>`;
-    };
   }
 };
 

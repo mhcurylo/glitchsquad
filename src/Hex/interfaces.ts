@@ -1,6 +1,6 @@
 import {WALL, HEX, PLAYER, SKILL} from '../Enums/enums';
 import {Soldier} from '../Soldier/interfaces';
-
+import {Behaviour} from '../Engine/interfaces';
 export interface Hex {
   walls: WALL[];
   type: HEX; 
@@ -10,7 +10,7 @@ export interface Hex {
   sub?: string;
   hoover?: string;
   player?: PLAYER;
-  acts?: SKILL[];
+  acts?: Behaviour[];
   x: number;
   y: number;
 }

@@ -11,7 +11,7 @@ export function updateBehaviour(state: GameState): GameState {
 };
 
 function skip(state: GameState): GameState {
-  state.behaviours.push({id: `skip-${state.active}`, event: 'onclick', action: {do: DO.SKIP, payload: {}}});
+  state.behaviours.push({id: `skip-${state.active}`, display: 'SKIP',  event: 'onclick', action: {do: DO.SKIP, payload: {}}});
   return state;
 };
   
@@ -20,8 +20,9 @@ function moves(state: GameState): GameState {
   const movxy = <{x: number, y: number}[]>Array.from(new Array(6), (a, i) => movesTo(x, y, i, state.hexMap)).filter(a => !!a); 
     
   movxy.forEach(m => {
-    state.behaviours.push(moveBehave(m.x, m.y));
-    state.hexMap[m.y][m.x].acts.push(SKILL.MOVE);
+    const mb = moveBehave(m.x, m.y);
+    state.behaviours.push(mb);
+    state.hexMap[m.y][m.x].acts.push(mb);
   });
 
   return state;
@@ -29,15 +30,16 @@ function moves(state: GameState): GameState {
   function movesTo(ox: number, oy: number, d: number, map: HexMap)  {
     const {x, y} = getCords(ox, oy, d);
  
-    return canMove(ox, oy, x, y, map) ? {x, y} : false;
+    return canMove(ox, oy, d, map) ? {x, y} : false;
   };
 
   function moveBehave (x: number, y: number): Behaviour {
     return {
-      id: `hex-${x}-${y}`,
+      id: `hex-${x}-${y}-${DO.MOVE}`,
+      display: 'MOVE',
       event: 'onclick',
        action: {
-         do: DO.MOVE,
+	 do: DO.MOVE,
          payload: {
           x: x, 
           y: y
