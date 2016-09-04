@@ -15,6 +15,7 @@ export function squadRender(soldiers: Soldier[], state: GameState, full?: boolea
 			      ${soldier.classNames ? soldier.classNames : ''}">
      <div class="s-code">${soldier.code}</div>
      <div class="s-name">${soldier.name}</div>
+     ${(full && act) ? '<div class="s-player"> P' + (soldier.player + 1) + '</div>' : ''}
      ${(full && act && !soldier.KIA) ? acts() : ''}
     </div>`; 
 
