@@ -10,7 +10,7 @@ export interface Hex {
   sub?: string;
   hoover?: string;
   player?: PLAYER;
-  acts?: Behaviour[];
+  acts: Behaviour[];
   x: number;
   y: number;
 }

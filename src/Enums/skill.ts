@@ -4,5 +4,6 @@ export const enum SKILL {
   SHOOT_HEAVY,
   OPEN,
   GRAB_DISC,
-  SKIP 
+  SKIP,
+  EVAC
 }

@@ -23,12 +23,7 @@ export function makeAnimate(animators: Array<(animation: Animation, doIt: (Actio
 
 export function makeReducer(reducers: Array<(GameState, Action) => GameState>) {
   return function(state: GameState, action: Action): GameState {
-    const newState = reducers.reduce((p, c) => c(p, action), state);
-    return newState;
-
-    function copy(state: GameState): GameState {
-      return Object.create(state);
-    }
+    return reducers.reduce((p, c) => c(p, action), state);
   } 
 }
 

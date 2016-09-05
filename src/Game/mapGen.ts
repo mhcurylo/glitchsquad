@@ -37,33 +37,36 @@ export function mapGen(): HexMap {
     return map;   
   }
 
-  function trimMap(map: HexMap): HexMap {
-    return map.map((l, li) => l.map((h, hi) => trimHex(l, li, h, hi)));
 
-    function trimHex(l ,li, h, hi) {
-      h.walls = h.walls.map((w, wi) => trimWall(l, li, h, hi, w, wi));
-      return h;
- 
-      function trimWall(l, li, h, hi, w, wi) {
-	if ((w !== WALL.NOT) && (h.type !== HEX.EMPTY) && (h.type !== HEX.DISC)) {
-          const {x, y} = getCords(hi, li, wi);
+}
 
-	  if ((y < 0) || (x < 0) || (size[0] - 1 < y) || (size[1] - 1 < x)) {
-	     return maybeTrim(w, 0.2);
-	  }
-	  const neighbour = map[y][x];
-	  
-          if   ((neighbour.type === HEX.EMPTY) || (neighbour.walls[(wi + 3) % 6] === WALL.NOT)) {
-            return maybeTrim(w, 0.1);
-	  }     
-       	}
-	return w;
+export function trimMap(map: HexMap): HexMap {
+  return map.map((l, li) => l.map((h, hi) => trimHex(l, li, h, hi)));
+
+  function trimHex(l ,li, h, hi) {
+    h.walls = h.walls.map((w, wi) => trimWall(l, li, h, hi, w, wi));
+    return h;
+
+    function trimWall(l, li, h, hi, w, wi) {
+     console.log(hi, li, wi);
+     if ((w !== WALL.NOT) && (h.type !== HEX.EMPTY) && (h.type !== HEX.DISC)) {
+       const {x, y} = getCords(hi, li, wi);
+       console.log(x, y);
+       if ((y < 0) || (x < 0) || (size[0] - 1 < y) || (size[1] - 1 < x)) {
+         return maybeTrim(w, 0.2);
+       }
+       const neighbour = map[y] ? map[y][x] : false;
+
+       if   ((neighbour) && ((neighbour.type === HEX.EMPTY) || (neighbour.walls[(wi + 3) % 6] === WALL.NOT))) {
+         return maybeTrim(w, 0.1);
+         }     
+      }
+      return w;
         
-        function maybeTrim(w: WALL, chance: number) {
-	  return Math.random() > chance ? WALL.NOT : w;
-        }
-      };
+      function maybeTrim(w: WALL, chance: number) {
+        return Math.random() > chance ? WALL.NOT : w;
+      }
     };
   };
-}
+};
 

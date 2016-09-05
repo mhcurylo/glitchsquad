@@ -11,6 +11,7 @@ export interface Soldier {
   KIA: boolean;
   skills: SKILL[];
   classNames?: string;
+  disc?: boolean;
   x: number,
   y: number,
   i: number

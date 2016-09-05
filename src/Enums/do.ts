@@ -4,5 +4,9 @@ export const enum DO {
   CHECKLEVEL,
   SKIP,
   MOVE,
-  HACK
+  HACK,
+  GRAB_DISC,
+  SHOOT_RIFLE,
+  SHOOT_HEAVY,
+  EVAC
 }

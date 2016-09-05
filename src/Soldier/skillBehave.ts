@@ -8,20 +8,30 @@ import {HackWallData} from '../Game/interfaces';
 export function updateBehaviour(state: GameState): GameState {
   state.behaviours = [];
   state.hexMap.forEach(l => l.forEach(h => h.acts = []));
-  return hack(moves(skip(state)));
+  return evac(grab(hack(moves(skip(state)))));
+};
+
+function evac(state: GameState): GameState {
+   able(state, SKILL.EVAC) ? state.behaviours.push({id: `evac-${state.active}`, display: 'EVAC',  event: 'onclick', action: {do: DO.EVAC, payload: {winner: state.soldiers[state.active].player}}})
+  : '';
+  return state;
+};
+
+function grab(state: GameState): GameState {
+  able(state, SKILL.GRAB_DISC) ? state.behaviours.push({id: `grab-${state.active}`, display: 'GRAB',  event: 'onclick', action: {do: DO.GRAB_DISC, payload: {}}})
+  : '';
+  return state;
 };
 
 function skip(state: GameState): GameState {
-  const {KIA, moves, skills} = state.soldiers[state.active];
-  ((!KIA) && (moves) && (skills.indexOf(SKILL.SKIP) > 0)) ? 
-  state.behaviours.push({id: `skip-${state.active}`, display: 'SKIP',  event: 'onclick', action: {do: DO.SKIP, payload: {}}})
+  able(state, SKILL.SKIP) ? state.behaviours.push({id: `skip-${state.active}`, display: 'SKIP',  event: 'onclick', action: {do: DO.SKIP, payload: {}}})
   : '';
   return state;
 };
 
 function hack(state: GameState): GameState {
-  const {x, y, KIA, moves, skills} = state.soldiers[state.active];
-  if ((KIA) || (!moves) || (skills.indexOf(SKILL.SKIP) === -1)) {
+  const {x, y} = state.soldiers[state.active];
+  if (!able(state, SKILL.OPEN)) {
     return state;
   }
 
@@ -52,8 +62,8 @@ function hack(state: GameState): GameState {
 };
 
 function moves(state: GameState): GameState {
-  const {x, y, KIA, moves, skills, player} = state.soldiers[state.active];
-  if ((KIA) || (!moves) || (skills.indexOf(SKILL.SKIP) === -1)) {
+  const {x, y, player} = state.soldiers[state.active];
+  if (!able(state, SKILL.MOVE)) { 
     return state;
   }
   const movxy = <{x: number, y: number}[]>Array.from(new Array(6), (a, i) => movesTo(x, y, i, state.hexMap)).filter(a => !!a);
@@ -89,4 +99,7 @@ function moves(state: GameState): GameState {
   };
 };
 
-
+function able(state, skill: SKILL): boolean {
+  const {KIA, moves, skills} = state.soldiers[state.active];
+  return (!KIA && moves && skills.indexOf(skill) > -1);
+}

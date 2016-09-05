@@ -24,8 +24,8 @@ export function squadRender(soldiers: Soldier[], state: GameState, full?: boolea
      <div class="acts">
        <div class="ap">AP: ${soldier.moves}/${soldier.movesPerTurn}</div>
        <div id="skip-${soldier.i}">SKIP</div>
-       ${on(state.disc) ? '<div class="s-action">GRAB</div>' : ''}
-       ${(on(state.disc) && (on(state.evac[soldier.player]))) ? '<div class="s-action">EVAC</div>' : ''}
+       ${on(state.disc) && !soldier.disc ? '<div class="s-action" id="grab-' + soldier.i + '"}>GRAB</div>' : ''}
+       ${(soldier.disc && (on(state.evac[soldier.player]))) ? '<div class="s-action" id="evac-' + soldier.i + '">EVAC</div>' : ''}
      </div>
     `;
       function on(l: number[]): boolean {

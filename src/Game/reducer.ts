@@ -1,10 +1,11 @@
 import {GameState, Action, Behaviour} from '../Engine/interfaces';
-import {DO, ANIME, SKILL, WALL} from '../Enums/enums';
+import {LOCATION, PLAYER, DO, ANIME, SKILL, WALL, HEX} from '../Enums/enums';
 import {mapGen} from './mapGen';
 import {mapCheck} from './mapCheck';
 import {HackWallData} from './interfaces';
 import {updateBehaviour} from '../Soldier/skillBehave';
 import {placeSoldiers} from '../Soldier/squad';
+import {menuState} from '../Menu/state';
 
 export function gameReducer(state: GameState, action: Action): GameState {
   switch (action.do) {
@@ -20,8 +21,11 @@ export function gameReducer(state: GameState, action: Action): GameState {
     case DO.MOVE:
       return moveSoldier(action.payload.x, action.payload.y, state);
     case DO.HACK:
-      console.log(action);
       return hackWall(action.payload.hwd, state);
+    case DO.GRAB_DISC:
+      return grabDisc(state);
+    case DO.EVAC:
+      return win(action.payload.winner, state);
     default:
       return state;
   }
@@ -42,8 +46,26 @@ function moveSoldier(x, y, state: GameState): GameState {
   const s = state.soldiers[state.active];
   s.x = x;
   s.y = y;
+  if (s.disc) {
+    const [dx, dy] = state.disc;
+    const from = state.hexMap[dy][dx];
+    const to = state.hexMap[y][x];
+    from.type !== HEX.EVAC ? from.type = HEX.BASE : '';
+    to.type !== HEX.EVAC ? to.type = HEX.BASE : '';
+    state.disc = [x, y];
+  }
   return updateBehaviour(eatAP(placeSoldiers(state)));
 }
+
+function grabDisc(state: GameState): GameState {
+  const s = state.soldiers[state.active];
+  s.disc = true;
+  return updateBehaviour(eatAP(state));
+}
+
+function win(winner: PLAYER, state: GameState): GameState {
+  return menuState(winner, state.soldiers.filter(s => s.player === winner));
+};
 
 function eatAP(state: GameState): GameState {
   const s = state.soldiers[state.active];

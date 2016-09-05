@@ -8,6 +8,7 @@ export function aHex(x: number, y: number): Hex {
     y: y,
     walls: randomWalls(),
     soldiers: [],
+    acts: [],
     type: Math.random() > 0.85 ? HEX.EMPTY : HEX.BASE 
   }
 };
