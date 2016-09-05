@@ -37,7 +37,7 @@ function hack(state: GameState): GameState {
 
   function openBehave (hwd: HackWallData): Behaviour {
     return {
-      id: `hex-${hwd.tx}-${hwd.ty}-${DO.HACK}`,
+      id: `hex-${hwd.tx}-${hwd.ty}-${hwd.td}-hack`,
       display: 'HACK',
       color: 'darkgrey',
       event: 'onclick',

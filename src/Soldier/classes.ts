@@ -12,7 +12,7 @@ export function soldierSquadie (player: PLAYER, name: string): Soldier {
     type: SOLDIER.SQUADIE,
     code: 'SQ',
     moves: 2,
-    movesPerTurn: 2,
+    movesPerTurn: 20,
     initiative: 5 + Math.random()*5,
     KIA: false,
     skills: [SKILL.MOVE, SKILL.SHOOT_RIFLE, SKILL.OPEN, SKILL.GRAB_DISC, SKILL.SKIP],
