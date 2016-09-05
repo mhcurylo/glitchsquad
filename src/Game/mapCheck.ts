@@ -47,12 +47,13 @@ export function connectionType(x: number, y:number, d: number, map: HexMap): WAL
 
 export function canOpen(x: number, y:number, d:number, map: HexMap): HackWallData | boolean {
   const t = getCords(x, y, d);
-  if (!isOnMap(x, y) || !isNotEmpty(x, y, map)) {
+  if (!isOnMap(t.x, t.y) || !isNotEmpty(t.x, t.y, map)) {
     return false;
-  }
-  const ct = connectionType(x, y, d, map);
-  const tw = getNearest();
-  return ct === WALL.DOORCLOSED ? {
+  } 
+  const wallFromClosed = map[y][x].walls[d] === WALL.DOORCLOSED; 
+  const wallToClosed = map[t.y][t.x].walls[(d + 3) % 6] === WALL.DOORCLOSED;
+  const tw = wallFromClosed ? {x, y, d} : {x: t.x, y: t.y, d: ((d + 3) % 6)};
+  return wallFromClosed || wallToClosed ? {
    dx: t.x,
    dy: t.y,
    tx: tw.x,
@@ -61,7 +62,7 @@ export function canOpen(x: number, y:number, d:number, map: HexMap): HackWallDat
   } : false;
 
   function getNearest() {
-    return map[y][x].walls[d] === WALL.DOORCLOSED ? {x, y, d} : {x: t.x, y: t.y, d: ((d + 3) % 6)};
+    return
   }
 }
 

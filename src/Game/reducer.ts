@@ -1,7 +1,8 @@
 import {GameState, Action, Behaviour} from '../Engine/interfaces';
-import {DO, ANIME, SKILL} from '../Enums/enums';
+import {DO, ANIME, SKILL, WALL} from '../Enums/enums';
 import {mapGen} from './mapGen';
 import {mapCheck} from './mapCheck';
+import {HackWallData} from './interfaces';
 import {updateBehaviour} from '../Soldier/skillBehave';
 import {placeSoldiers} from '../Soldier/squad';
 
@@ -18,6 +19,9 @@ export function gameReducer(state: GameState, action: Action): GameState {
       return nextSoldier(state);
     case DO.MOVE:
       return moveSoldier(action.payload.x, action.payload.y, state);
+    case DO.HACK:
+      console.log(action);
+      return hackWall(action.payload.hwd, state);
     default:
       return state;
   }
@@ -51,6 +55,11 @@ function eatAP(state: GameState): GameState {
   }
 }
 
+function hackWall(hwd: HackWallData, state: GameState): GameState {
+  state.hexMap[hwd.ty][hwd.tx].walls[hwd.td] = WALL.DOOROPEN; 
+  console.log('!!!');
+  return updateBehaviour(eatAP(state));
+}
 
 function forceSkip(state: GameState): GameState { 
     state.behaviours = [];

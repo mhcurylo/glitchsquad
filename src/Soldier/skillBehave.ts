@@ -8,7 +8,7 @@ import {HackWallData} from '../Game/interfaces';
 export function updateBehaviour(state: GameState): GameState {
   state.behaviours = [];
   state.hexMap.forEach(l => l.forEach(h => h.acts = []));
-  return open(moves(skip(state)));
+  return hack(moves(skip(state)));
 };
 
 function skip(state: GameState): GameState {
@@ -19,7 +19,7 @@ function skip(state: GameState): GameState {
   return state;
 };
 
-function open(state: GameState): GameState {
+function hack(state: GameState): GameState {
   const {x, y, KIA, moves, skills} = state.soldiers[state.active];
   if ((KIA) || (!moves) || (skills.indexOf(SKILL.SKIP) === -1)) {
     return state;
@@ -37,7 +37,7 @@ function open(state: GameState): GameState {
 
   function openBehave (hwd: HackWallData): Behaviour {
     return {
-      id: `hex-${x}-${y}-${DO.HACK}`,
+      id: `hex-${hwd.tx}-${hwd.ty}-${DO.HACK}`,
       display: 'HACK',
       color: 'darkgrey',
       event: 'onclick',
