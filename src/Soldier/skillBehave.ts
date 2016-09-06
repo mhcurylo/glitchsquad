@@ -1,14 +1,14 @@
 import {GameState, Action, Behaviour} from '../Engine/interfaces';
-import {DO, ANIME, SKILL} from '../Enums/enums';
+import {WALL, DO, ANIME, SKILL} from '../Enums/enums';
 import {Soldier} from './interfaces';
 import {Hex, HexMap} from '../Hex/interfaces';
-import {getCords, canMove, canOpen} from '../Game/mapCheck';
-import {HackWallData} from '../Game/interfaces';
+import {getCords, canMove, canOpen, allTill} from '../Game/mapCheck';
+import {HackWallData, WallCoords} from '../Game/interfaces';
 
 export function updateBehaviour(state: GameState): GameState {
   state.behaviours = [];
   state.hexMap.forEach(l => l.forEach(h => h.acts = []));
-  return evac(grab(hack(moves(skip(state)))));
+  return shootRifle(evac(grab(hack(moves(skip(state))))));
 };
 
 function evac(state: GameState): GameState {
@@ -28,6 +28,43 @@ function skip(state: GameState): GameState {
   : '';
   return state;
 };
+
+function shootRifle(state: GameState): GameState {
+  const {x, y, player} = state.soldiers[state.active];
+  if (!able(state, SKILL.SHOOT_RIFLE)) {
+    return state;
+  }
+
+  const shootxy = <WallCoords[][]>Array.from(new Array(6), (a, d) => allTill(x, y, d, state.hexMap, WALL.DOOROPEN)).filter(canShootSomebody);
+  
+  shootxy.forEach(wc => {
+    const srb = shootRifleBehave(wc);
+    state.behaviours.push(srb);
+    state.hexMap[wc[wc.length-1].y][wc[wc.length-1].x].acts.push(srb);
+  });
+
+  return state;
+
+  function canShootSomebody(coords: WallCoords[]): boolean { 
+    return coords.findIndex(c => state.hexMap[c.y][c.x].soldiers.findIndex(s => s.player !== player) > -1) > -1; 
+  }
+
+  
+  function shootRifleBehave (wc: WallCoords[]): Behaviour {
+    return {
+      id: `hex-${wc[wc.length - 1].x}-${wc[wc.length - 1].y}-${wc[wc.length - 1].d}-shoot_rifle`,
+      display: 'SHOOT',
+      color: 'darkred',
+      event: 'onclick',
+       action: {
+	 do: DO.SHOOT_RIFLE,
+         payload: {
+          wc: wc
+        } 
+      }
+    }
+  };
+}
 
 function hack(state: GameState): GameState {
   const {x, y} = state.soldiers[state.active];
@@ -67,7 +104,6 @@ function moves(state: GameState): GameState {
     return state;
   }
   const movxy = <{x: number, y: number}[]>Array.from(new Array(6), (a, i) => movesTo(x, y, i, state.hexMap)).filter(a => !!a);
-    
   movxy.forEach(m => {
     const mb = moveBehave(m.x, m.y);
     state.behaviours.push(mb);
@@ -101,5 +137,5 @@ function moves(state: GameState): GameState {
 
 function able(state, skill: SKILL): boolean {
   const {KIA, moves, skills} = state.soldiers[state.active];
-  return (!KIA && moves && skills.indexOf(skill) > -1);
+  return (!KIA && moves >= 0 && skills.indexOf(skill) > -1);
 }

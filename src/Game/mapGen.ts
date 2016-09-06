@@ -37,7 +37,6 @@ export function mapGen(): HexMap {
     return map;   
   }
 
-
 }
 
 export function trimMap(map: HexMap): HexMap {

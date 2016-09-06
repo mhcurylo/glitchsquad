@@ -2,7 +2,7 @@ import {WALL, HEX} from '../Enums/enums';
 import {Hex, HexMap} from '../Hex/interfaces';
 import {randomHex} from '../Hex/hexCreate';
 import {size} from './mapSize';
-import {HackWallData} from './interfaces';
+import {HackWallData, WallCoords} from './interfaces';
 
 export const cords = [[[1, 0], [0, 1], [-1, 1], [-1, 0], [-1, -1], [0, -1]],
 	       [[1, 0], [1, 1], [0, 1], [-1, 0], [0, -1], [1, -1]]];
@@ -17,25 +17,22 @@ export function getCords(x: number, y: number, d: number): {x:number, y:number} 
 }
 
 export function canMove(x: number, y:number, d: number, map: HexMap): boolean {
-  const t = getCords(x, y, d);
-  return isOnMap(t.x, t.y) && isNotEmpty(t.x, t.y, map) && isAccessible(x, y, d, map);
+  return connectionIsAtMost(x, y, d, map, WALL.DOOROPEN);
 }
 
 function isOnMap(x: number, y: number): boolean {
   return ((-1 < x) && (x < size[1]) && (-1 < y) && (y < size[0]));
-};
+}
 
 export function isNotEmpty(x: number, y: number, map: HexMap): boolean {
   return map[y][x].type !== HEX.EMPTY;
 }
 export function isAccessible(x: number, y:number, d: number, map: HexMap): boolean {
-  const connection = connectionType(x, y, d, map);
-  return (connection === WALL.CORRIDOR) || (connection === WALL.DOOROPEN);
+  return connectionIsAtMost(x, y, d, map, WALL.DOOROPEN);
 }
 
 export function isConnected(x: number, y:number, d: number, map: HexMap): boolean {
-  const connection = connectionType(x, y, d, map);
-  return (connection === WALL.CORRIDOR) || (connection === WALL.DOOROPEN) || (connection === WALL.DOORCLOSED);
+  return connectionIsAtMost(x, y, d, map, WALL.NOT);
 }
 
 export function connectionType(x: number, y:number, d: number, map: HexMap): WALL {
@@ -45,24 +42,38 @@ export function connectionType(x: number, y:number, d: number, map: HexMap): WAL
   return wallF > wallT ? wallF : wallT;
 }
 
+export function connectionIsAtMost(x: number, y: number, d: number, map: HexMap, w: WALL): boolean {
+  const t = getCords(x, y, d);
+  return isOnMap(t.x, t.y) && isNotEmpty(t.x, t.y, map) && (connectionType(x, y, d, map) <= w);
+}
+
+export function connectionIs(x: number, y: number, d: number, map: HexMap, w: WALL): boolean {
+  const t = getCords(x, y, d);
+  return isOnMap(t.x, t.y) && isNotEmpty(t.x, t.y, map) && (connectionType(x, y, d, map) === w);
+}
+
 export function canOpen(x: number, y:number, d:number, map: HexMap): HackWallData | boolean {
   const t = getCords(x, y, d);
-  if (!isOnMap(t.x, t.y) || !isNotEmpty(t.x, t.y, map)) {
+  if (!connectionIs(x, y, d, map, WALL.DOORCLOSED)) {
     return false;
   } 
-  const wallFromClosed = map[y][x].walls[d] === WALL.DOORCLOSED; 
-  const wallToClosed = map[t.y][t.x].walls[(d + 3) % 6] === WALL.DOORCLOSED;
-  const tw = wallFromClosed ? {x, y, d} : {x: t.x, y: t.y, d: ((d + 3) % 6)};
-  return (wallFromClosed || wallToClosed) && (connectionType(x, y, d, map) !== WALL.NOT) ? {
+  const tw = map[y][x].walls[d] === WALL.DOORCLOSED ? {x, y, d} : {x: t.x, y: t.y, d: ((d + 3) % 6)};
+  return {
    dx: t.x,
    dy: t.y,
    tx: tw.x,
    ty: tw.y,
    td: tw.d
-  } : false;
-
-  function getNearest() {
-    return
-  }
+  };
 }
 
+export function allTill (x: number, y:number, d: number, map: HexMap, w: WALL): WallCoords[] {
+  const wc: WallCoords[] = [];
+  let t = {x, y};
+  while (connectionIsAtMost(t.x, t.y, d, map, w)) {
+    t = getCords(t.x, t.y, d);
+    wc.push({x: t.x, y: t.y, d: d});
+  }
+  console.log(wc);
+  return wc;
+}

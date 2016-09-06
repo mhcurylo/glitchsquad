@@ -5,3 +5,9 @@ export interface HackWallData {
   ty: number;
   td: number;
 }
+
+export interface WallCoords {
+  x: number,
+  y: number,
+  d: number
+}
