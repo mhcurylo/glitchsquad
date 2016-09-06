@@ -51,7 +51,7 @@ function moveSoldier(x, y, state: GameState): GameState {
     const from = state.hexMap[dy][dx];
     const to = state.hexMap[y][x];
     from.type !== HEX.EVAC ? from.type = HEX.BASE : '';
-    to.type !== HEX.EVAC ? to.type = HEX.BASE : '';
+    to.type !== HEX.EVAC ? to.type = HEX.DISC : '';
     state.disc = [x, y];
   }
   return updateBehaviour(eatAP(placeSoldiers(state)));
