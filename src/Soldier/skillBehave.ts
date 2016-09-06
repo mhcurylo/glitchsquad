@@ -54,7 +54,7 @@ function shootRifle(state: GameState): GameState {
     return {
       id: `hex-${wc[wc.length - 1].x}-${wc[wc.length - 1].y}-${wc[wc.length - 1].d}-shoot_rifle`,
       display: 'SHOOT',
-      color: 'darkred',
+      color: `darkred sd-${wc[wc.length-1].d}`,
       event: 'onclick',
        action: {
 	 do: DO.SHOOT_RIFLE,
