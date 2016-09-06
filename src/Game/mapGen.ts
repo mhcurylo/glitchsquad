@@ -55,9 +55,13 @@ export function trimMap(map: HexMap): HexMap {
        if ((y < 0) || (x < 0) || (size[0] - 1 < y) || (size[1] - 1 < x)) {
          return maybeTrim(w, 0.2);
        }
-       const neighbour = map[y] ? map[y][x] : false;
+       if (!map[y] || !map[y][x]) {
+         return w;
+       }
 
-       if   ((neighbour) && ((neighbour.type === HEX.EMPTY) || (neighbour.walls[(wi + 3) % 6] === WALL.NOT))) {
+       const neighbour = map[y][x];
+
+       if ((neighbour.type === HEX.EMPTY) || (neighbour.walls[(wi + 3) % 6] === WALL.NOT)) {
          return maybeTrim(w, 0.1);
          }     
       }
