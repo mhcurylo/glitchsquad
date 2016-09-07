@@ -8,7 +8,7 @@ import {HackWallData, WallCoords} from '../Game/interfaces';
 export function updateBehaviour(state: GameState): GameState {
   state.behaviours = [];
   state.hexMap.forEach(l => l.forEach(h => h.acts = []));
-  return shootRifle(evac(grab(hack(moves(skip(state))))));
+  return shootHeavy(shootRifle(evac(grab(hack(moves(skip(state)))))));
 };
 
 function evac(state: GameState): GameState {
@@ -35,14 +35,15 @@ function shootRifle(state: GameState): GameState {
     return state;
   }
 
-  const shootxy = <WallCoords[][]>Array.from(new Array(6), (a, d) => allTill(x, y, d, state.hexMap, WALL.DOOROPEN)).filter(canShootSomebody);
+  const shootxy = <WallCoords[][]>Array.from(new Array(6), (a, d) => allTill(x, y, d, state.hexMap, WALL.DOORCLOSED
+)).filter(canShootSomebody);
   
   shootxy.forEach(wc => {
     const srb = shootRifleBehave(wc);
     state.behaviours.push(srb);
     state.hexMap[wc[wc.length-1].y][wc[wc.length-1].x].acts.push(srb);
   });
-
+  
   return state;
 
   function canShootSomebody(coords: WallCoords[]): boolean { 
@@ -55,6 +56,40 @@ function shootRifle(state: GameState): GameState {
       id: `hex-${wc[wc.length - 1].x}-${wc[wc.length - 1].y}-${wc[wc.length - 1].d}-shoot_rifle`,
       display: 'SHOOT',
       color: `darkred sd-${wc[wc.length-1].d}`,
+      event: 'onclick',
+       action: {
+	 do: DO.SHOOT_RIFLE,
+         payload: {
+          wc: wc
+        } 
+      }
+    }
+  };
+}
+
+function shootHeavy(state: GameState): GameState {
+  const {x, y, player} = state.soldiers[state.active];
+  if (!able(state, SKILL.SHOOT_HEAVY)) {
+    return state;
+  }
+
+  const shootxy = <WallCoords[][]>Array.from(new Array(6), (a, d) => allTill(x, y, d, state.hexMap, WALL.NOT)).filter(a => a.length > 0);
+  
+  shootxy.forEach(wc => {
+    console.log(wc, 'wc');
+    const shb = shootHeavyBehave(wc);
+    state.behaviours.push(shb);
+    state.hexMap[wc[wc.length-1].y][wc[wc.length-1].x].acts.push(shb);
+  });
+  
+  return state;
+
+  function shootHeavyBehave (wc: WallCoords[]): Behaviour {
+    console.log(wc);
+    return {
+      id: `hex-${wc[wc.length - 1].x}-${wc[wc.length - 1].y}-${wc[wc.length - 1].d}-shoot_heavy`,
+      display: 'BARRAGE',
+      color: `darkred sd-${wc[wc.length-1].d} heavy`,
       event: 'onclick',
        action: {
 	 do: DO.SHOOT_RIFLE,

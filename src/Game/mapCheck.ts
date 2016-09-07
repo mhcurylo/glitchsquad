@@ -67,13 +67,13 @@ export function canOpen(x: number, y:number, d:number, map: HexMap): HackWallDat
   };
 }
 
-export function allTill (x: number, y:number, d: number, map: HexMap, w: WALL): WallCoords[] {
-  const wc: WallCoords[] = [];
-  let t = {x, y};
-  while (connectionIsAtMost(t.x, t.y, d, map, w)) {
-    t = getCords(t.x, t.y, d);
-    wc.push({x: t.x, y: t.y, d: d});
+export function allTill (x: number, y:number, d: number, map: HexMap, w: WALL, acc: WallCoords[] = [], i: number = 1): WallCoords[] {
+  const wc: WallCoords = {x, y, d, type: map[y][x].walls[d]};
+  const next = i % 2 ? getCords(x, y, d) : wc;
+
+  if (isOnMap(next.x, next.y) && isNotEmpty(next.x, next.y, map) && (wc.type < w)) {
+   return allTill(next.x, next.y, (d + 3) % 6, map, w, acc.concat([wc]), i + 1);  
+  } else {
+    return acc;
   }
-  console.log(wc);
-  return wc;
 }

@@ -1,3 +1,5 @@
+import {WALL} from '../Enums/enums';
+
 export interface HackWallData {
   dx: number;
   dy: number;
@@ -9,5 +11,6 @@ export interface HackWallData {
 export interface WallCoords {
   x: number,
   y: number,
-  d: number
+  d: number,
+  type?: WALL 
 }

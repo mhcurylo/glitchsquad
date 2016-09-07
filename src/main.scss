@@ -198,6 +198,9 @@ body {
 .hex .h-act.darkgrey {
   background: $grey;
 }
+.hex .h-act.darkred {
+  background: $darkred;
+}
 .hex .h-act:hover {
   background: $lightgrey;
   span{
