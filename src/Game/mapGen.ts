@@ -47,10 +47,8 @@ export function trimMap(map: HexMap): HexMap {
     return h;
 
     function trimWall(l, li, h, hi, w, wi) {
-     console.log(hi, li, wi);
      if ((w !== WALL.NOT) && (h.type !== HEX.EMPTY) && (h.type !== HEX.DISC)) {
        const {x, y} = getCords(hi, li, wi);
-       console.log(x, y);
        if ((y < 0) || (x < 0) || (size[0] - 1 < y) || (size[1] - 1 < x)) {
          return maybeTrim(w, 0.2);
        }

@@ -47,7 +47,7 @@ function shootRifle(state: GameState): GameState {
   return state;
 
   function canShootSomebody(coords: WallCoords[]): boolean { 
-    return coords.findIndex(c => state.hexMap[c.y][c.x].soldiers.findIndex(s => (s.player !== player && !s.KIA) > -1) > -1; 
+    return coords.findIndex(c => state.hexMap[c.y][c.x].soldiers.findIndex(s => s.player !== player && !s.KIA) > -1) > -1; 
   }
 
   
@@ -76,7 +76,6 @@ function shootHeavy(state: GameState): GameState {
   const shootxy = <WallCoords[][]>Array.from(new Array(6), (a, d) => allTill(x, y, d, state.hexMap, WALL.NOT)).filter(a => a.length > 0);
   
   shootxy.forEach(wc => {
-    console.log(wc, 'wc');
     const shb = shootHeavyBehave(wc);
     state.behaviours.push(shb);
     state.hexMap[wc[wc.length-1].y][wc[wc.length-1].x].acts.push(shb);
@@ -85,14 +84,13 @@ function shootHeavy(state: GameState): GameState {
   return state;
 
   function shootHeavyBehave (wc: WallCoords[]): Behaviour {
-    console.log(wc);
     return {
       id: `hex-${wc[wc.length - 1].x}-${wc[wc.length - 1].y}-${wc[wc.length - 1].d}-shoot_heavy`,
       display: 'BARRAGE',
       color: `darkred sd-${wc[wc.length-1].d} heavy`,
       event: 'onclick',
        action: {
-	 do: DO.SHOOT_RIFLE,
+	 do: DO.SHOOT_HEAVY,
          payload: {
           wc: wc
         } 

@@ -69,26 +69,31 @@ function grabDisc(state: GameState): GameState {
 }
 
 function shootRifle(payload: {wc: WallCoords[]}, state: GameState): GameState {
-  const res = payload.wc.reduce(({t, state}, c) => shootPeople(c, t, state), {t: 0, state});
+  const {x, y} = state.soldiers[state.active];
+  const res = payload.wc.reduce(({x, y, t, state}, c) =>
+    shootPeople(x, y, c, t, state), {x, y, t: 0, state}
+  );
   return eatAP(res.state);
 }
 
-function shootPeople(w: WallCoords, t: number, state: GameState): {t: number, state: GameState} {
+function shootPeople(x: number, y: number, w: WallCoords, t: number, state: GameState): {x: number, y: number, t: number, state: GameState} {
   const hex = state.hexMap[w.y][w.x];
   if (w.type === WALL.DOOROPEN) {
     t = t + 1;
   }
-  hex.soldiers.forEach((s) => {
-    t = t + 1; 
-    state = tryKill(s.i, t, state);
-  });
-  return  {t, state};
+  if (w.x !== x || w.y !== y) {
+    hex.soldiers.forEach((s) => {
+      t = t + 1; 
+      s.KIA ? '' : state = tryKill(s.i, t, state);
+    });
+  };
+  return  {x: w.x, y: w.y, t, state};
 }
 
 
 function tryKill(si: number, t: number, state: GameState): GameState {
-  const r = Math.random() > (0.05 + 0.1*t);
-  console.log('Roll', r, 0.05 + 0.1*t);
+  const r = Math.random() > (0.1*t);
+  console.log('Rolled 2 kill', !r, 0.1*t);
   return r ? state : kill(si, state);  
 }
 
@@ -103,7 +108,7 @@ function shootHeavy(payload: {wc: WallCoords[]}, state: GameState): GameState {
 }
 
 function shootClosedWalls(payload: {wc: WallCoords[]}, state: GameState): GameState {
-  return payload.wc.reduce((p, c) => c.type === WALL.DOORCLOSED ? wallOpen(c.x, c.y, c.d, c) :  state, state);
+  return payload.wc.reduce((p, c) => c.type === WALL.DOORCLOSED ? wallOpen(c.x, c.y, c.d, p) :  state, state);
 }
 
 function wallOpen(x, y, d, state) {

@@ -8,7 +8,6 @@ export function makeRender(renderers: Array<(GameState) => void>, dom: any) {
 }
 
 export function behave (behaviours: Behaviour[], doIt: (Action) => void): void {
-  console.log('do', behaviours);
   behaviours.forEach(b => {
     const e = document.getElementById(b.id);
     e ? e[b.event] = () => doIt(b.action) : ''; 
