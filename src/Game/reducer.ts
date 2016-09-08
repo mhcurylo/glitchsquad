@@ -92,7 +92,7 @@ function shootPeople(x: number, y: number, w: WallCoords, t: number, state: Game
 
 
 function tryKill(si: number, t: number, state: GameState): GameState {
-  const r = Math.random() > (0.1*t);
+  const r = Math.random() > 0.25 + (t*0.075);
   console.log('Rolled 2 kill', !r, 0.1*t);
   return r ? state : kill(si, state);  
 }

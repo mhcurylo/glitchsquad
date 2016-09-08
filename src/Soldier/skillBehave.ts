@@ -170,5 +170,5 @@ function moves(state: GameState): GameState {
 
 function able(state, skill: SKILL): boolean {
   const {KIA, moves, skills} = state.soldiers[state.active];
-  return (!KIA && moves >= 0 && skills.indexOf(skill) > -1);
+  return (!KIA && moves > 0 && skills.indexOf(skill) > -1);
 }
