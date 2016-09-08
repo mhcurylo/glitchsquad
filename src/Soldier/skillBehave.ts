@@ -47,7 +47,7 @@ function shootRifle(state: GameState): GameState {
   return state;
 
   function canShootSomebody(coords: WallCoords[]): boolean { 
-    return coords.findIndex(c => state.hexMap[c.y][c.x].soldiers.findIndex(s => s.player !== player) > -1) > -1; 
+    return coords.findIndex(c => state.hexMap[c.y][c.x].soldiers.findIndex(s => (s.player !== player && !s.KIA) > -1) > -1; 
   }
 
   

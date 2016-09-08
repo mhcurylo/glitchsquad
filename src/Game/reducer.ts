@@ -2,7 +2,7 @@ import {GameState, Action, Behaviour} from '../Engine/interfaces';
 import {LOCATION, PLAYER, DO, ANIME, SKILL, WALL, HEX} from '../Enums/enums';
 import {mapGen} from './mapGen';
 import {mapCheck} from './mapCheck';
-import {HackWallData} from './interfaces';
+import {HackWallData, WallCoords} from './interfaces';
 import {updateBehaviour} from '../Soldier/skillBehave';
 import {placeSoldiers} from '../Soldier/squad';
 import {menuState} from '../Menu/state';
@@ -26,6 +26,10 @@ export function gameReducer(state: GameState, action: Action): GameState {
       return grabDisc(state);
     case DO.EVAC:
       return win(action.payload.winner, state);
+    case DO.SHOOT_RIFLE:
+      return shootRifle(action.payload, state);
+    case DO.SHOOT_HEAVY:
+      return shootHeavy(action.payload, state);
     default:
       return state;
   }
@@ -58,14 +62,58 @@ function moveSoldier(x, y, state: GameState): GameState {
 }
 
 function grabDisc(state: GameState): GameState {
+  state.soldiers.map(s => Object.assign(s, {disc: false}));
   const s = state.soldiers[state.active];
   s.disc = true;
   return updateBehaviour(eatAP(state));
 }
 
+function shootRifle(payload: {wc: WallCoords[]}, state: GameState): GameState {
+  const res = payload.wc.reduce(({t, state}, c) => shootPeople(c, t, state), {t: 0, state});
+  return eatAP(res.state);
+}
+
+function shootPeople(w: WallCoords, t: number, state: GameState): {t: number, state: GameState} {
+  const hex = state.hexMap[w.y][w.x];
+  if (w.type === WALL.DOOROPEN) {
+    t = t + 1;
+  }
+  hex.soldiers.forEach((s) => {
+    t = t + 1; 
+    state = tryKill(s.i, t, state);
+  });
+  return  {t, state};
+}
+
+
+function tryKill(si: number, t: number, state: GameState): GameState {
+  const r = Math.random() > (0.05 + 0.1*t);
+  console.log('Roll', r, 0.05 + 0.1*t);
+  return r ? state : kill(si, state);  
+}
+
+function kill(si: number, state: GameState): GameState {
+  state.soldiers[si].KIA = true;
+  state.soldiers[si].moves = 0;
+  return state;
+}
+
+function shootHeavy(payload: {wc: WallCoords[]}, state: GameState): GameState {
+  return eatAP(shootRifle(payload, shootClosedWalls(payload, state)));
+}
+
+function shootClosedWalls(payload: {wc: WallCoords[]}, state: GameState): GameState {
+  return payload.wc.reduce((p, c) => c.type === WALL.DOORCLOSED ? wallOpen(c.x, c.y, c.d, c) :  state, state);
+}
+
+function wallOpen(x, y, d, state) {
+  state.hexMap[y][x].walls[d] = WALL.DOOROPEN;
+  return state;
+}
+
 function win(winner: PLAYER, state: GameState): GameState {
   return menuState(winner, state.soldiers.filter(s => s.player === winner));
-};
+}
 
 function eatAP(state: GameState): GameState {
   const s = state.soldiers[state.active];
@@ -79,7 +127,6 @@ function eatAP(state: GameState): GameState {
 
 function hackWall(hwd: HackWallData, state: GameState): GameState {
   state.hexMap[hwd.ty][hwd.tx].walls[hwd.td] = WALL.DOOROPEN; 
-  console.log('!!!');
   return updateBehaviour(eatAP(state));
 }
 
