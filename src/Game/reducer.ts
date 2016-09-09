@@ -111,7 +111,7 @@ function kill(si: number, state: GameState): GameState {
 }
 
 function shootHeavy(payload: {wc: WallCoords[]}, state: GameState): GameState {
-  return eatAllAP(shootRifle(payload, shootClosedWalls(payload, state)));
+  return shootRifle(payload, shootClosedWalls(payload, state));
 }
 
 function shootClosedWalls(payload: {wc: WallCoords[]}, state: GameState): GameState {
