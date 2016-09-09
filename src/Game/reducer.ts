@@ -36,6 +36,10 @@ export function gameReducer(state: GameState, action: Action): GameState {
 }
 
 export function nextSoldier(state: GameState): GameState {
+  const {soldiers, active} = state;
+  if (active > -1 && soldiers.findIndex(s => (s.player !== soldiers[active].player && !s.KIA)) === -1) {
+    return win(soldiers[active].player, state);
+  }
   state.active = (state.active + 1) % state.soldiers.length;
   const soldier = state.soldiers[state.active];
   if (soldier.KIA === true) {
@@ -78,24 +82,26 @@ function shootRifle(payload: {wc: WallCoords[]}, state: GameState): GameState {
 
 function shootPeople(x: number, y: number, w: WallCoords, t: number, state: GameState): {x: number, y: number, t: number, state: GameState} {
   const hex = state.hexMap[w.y][w.x];
-  if (w.type === WALL.DOOROPEN) {
+  const soldier = state.soldiers[state.active];
+  if ((w.type === WALL.DOOROPEN || w.type === WALL.DOORCLOSED) && (soldier.x !== x || soldier.y !== y)) {
+    t = t + 8;
+  } else {
     t = t + 1;
-  }
+  } 
   if (w.x !== x || w.y !== y) {
     hex.soldiers.forEach((s) => {
-      t = t + 1;
+      t = t + 5;
       s.KIA ? '' : state = tryKill(s.i, t, state);
     });
   }
-  ;
+  
   return {x: w.x, y: w.y, t, state};
 }
 
 
 function tryKill(si: number, t: number, state: GameState): GameState {
-  const r = Math.random() > 0.25 + (t * 0.075);
-  console.log('Rolled 2 kill', !r, 0.1 * t);
-  return r ? state : kill(si, state);
+  const r = Math.random()*100 > t;
+  return r ? kill(si, state) : state;
 }
 
 function kill(si: number, state: GameState): GameState {
@@ -119,6 +125,11 @@ function wallOpen(x, y, d, state) {
 
 function win(winner: PLAYER, state: GameState): GameState {
   return menuState(winner, state.soldiers.filter(s => s.player === winner));
+}
+
+function eatAllAP(state: GameState): GameState {
+  state.soldiers[state.active].moves = 0;
+  return forceSkip(state);
 }
 
 function eatAP(state: GameState): GameState {
