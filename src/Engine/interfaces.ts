@@ -1,4 +1,4 @@
-import {LOCATION, DO, ANIME, SOLDIER, PLAYER} from '../Enums/enums';
+import {LOCATION, DO, ANIME, PLAYER} from '../Enums/enums';
 import {HexMap} from '../Hex/interfaces';
 import {Soldier} from '../Soldier/interfaces';
 

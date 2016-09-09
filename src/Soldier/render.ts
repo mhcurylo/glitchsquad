@@ -5,7 +5,7 @@ export function squadRender(soldiers: Soldier[], state: GameState, full?: boolea
   return `<div class="soldiers">
 	${soldiers.reduce((p, c) => p + renderSoldier(c), '')}
 </div>`;
-
+  
   function renderSoldier(soldier: Soldier): string {
     const act = soldier.i === state.active;
     return `<div class="soldier s-t-${soldier.type}
@@ -17,8 +17,8 @@ export function squadRender(soldiers: Soldier[], state: GameState, full?: boolea
      <div class="s-name">${soldier.name}</div>
      ${(full && act) ? '<div class="s-player"> P' + (soldier.player + 1) + '</div>' : ''}
      ${(full && act && !soldier.KIA && soldier.moves) ? acts() : ''}
-    </div>`; 
-
+    </div>`;
+    
     function acts() {
       return `
      <div class="acts">

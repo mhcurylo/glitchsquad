@@ -1,7 +1,5 @@
-import {Action, Behaviour, GameState} from './interfaces';
 import {makeRender, behave, makeReducer, makeAnimate} from './make';
 import {Game} from './game';
-import {DO} from '../Enums/do';
 import {menuState} from '../Menu/state';
 import {menuRender} from '../Menu/render';
 import {gameRender} from '../Game/render';

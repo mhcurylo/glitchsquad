@@ -32,21 +32,25 @@ body {
   height: 600px;
   line-height: 1.3;
 }
+
 .hexline {
   height: 128px;
 }
+
 .hexline-even {
   position: relative;
   left: 40px;
 }
+
 .hexline-odd {
   position: relative;
   margin-top: -75px;
   margin-bottom: -75px;
 }
+
 .hex {
   position: relative;
-  width: 40px; 
+  width: 40px;
   height: 40px;
   display: inline-block;
   margin-right: 40px;
@@ -62,18 +66,23 @@ body {
   background: $white;
   transform-origin: 50% 40px;
 }
+
 .hw-a-1 {
   transform: rotate(60deg);
 }
+
 .hw-a-2 {
   transform: rotate(120deg);
 }
+
 .hw-a-3 {
   transform: rotate(180deg);
 }
+
 .hw-a-4 {
   transform: rotate(240deg);
 }
+
 .hw-a-5 {
   transform: rotate(300deg);
 }
@@ -83,23 +92,26 @@ body {
   width: 0px;
   outline-width: 0px;
 }
+
 .hw-t-1 {
   border-top: 5px solid $lightgrey;
   height: 40px;
 }
+
 .hw-t-2 {
   border-top: 5px solid $grey;
   height: 40px;
 }
 
-
 .hex.empty {
   border-color: $blue;
   background-color: $blue;
 }
+
 .hex.empty:after, .hex.empty:before {
   border-color: $blue;
 }
+
 .hex .evac {
   z-index: 3;
   position: absolute;
@@ -116,15 +128,19 @@ body {
   opacity: 0.9;
   color: black;
 }
+
 .c-p0 {
   background: $yellow;
 }
+
 .c-p1 {
   background: $green;
 }
+
 .disc {
   background: $red;
 }
+
 .hex .char {
   z-index: 2;
   position: absolute;
@@ -141,12 +157,15 @@ body {
   background: $white;
   transition: all 150ms;
 }
+
 .hex .char:hover {
   background: $green;
 }
+
 .hex .sub {
   position: absolute;
 }
+
 .hex .h-acts {
   position: absolute;
   height: 21px;
@@ -160,9 +179,10 @@ body {
   .m {
     display: inline-block;
     height: 1px;
-    width: 2px;    
+    width: 2px;
   }
 }
+
 .hex .h-act {
   z-index: 10;
   display: inline-block;
@@ -181,6 +201,7 @@ body {
     text-align: center;
   }
 }
+
 .hex .h-acts.l2 {
   width: 43px;
   left: -12px;
@@ -189,34 +210,38 @@ body {
     left: -8px;
   }
 }
+
 .hex .h-act.p0 {
   background: $yellow;
 }
+
 .hex .h-act.p1 {
   background: $green;
 }
+
 .hex .h-act.darkgrey {
   background: $grey;
 }
+
 .hex .h-act.darkred {
   background: $darkred;
 }
+
 .hex .h-act:hover {
   background: $lightgrey;
-  span{
+  span {
     display: inline;
   }
 }
-
 
 .squad-display {
   width: 1200px;
   height: 100px;
 }
 
-.soldier { 
+.soldier {
   position: relative;
-  outline: 4px $lightgrey solid; 
+  outline: 4px $lightgrey solid;
   height: 104px;
   width: 96px;
   margin: 8px;
@@ -239,14 +264,14 @@ body {
     font-weight: 600;
     font-size: 18px;
     text-align: center;
-    div { 
-     margin-top: 6px;
-     margin-bottom: 6px;
-     padding: 2px;
-     background: $white;
-     color: $grey;
-     outline: 2px $grey solid;
-     transition: all 0.5;
+    div {
+      margin-top: 6px;
+      margin-bottom: 6px;
+      padding: 2px;
+      background: $white;
+      color: $grey;
+      outline: 2px $grey solid;
+      transition: all 0.5;
     }
     div:hover:not(.ap) {
       color: $darkred;
@@ -254,29 +279,34 @@ body {
     }
   }
 }
+
 .s-player {
   position: absolute;
   top: -32px;
   font-size: 24px;
   width: 96px;
 }
+
 .s-p-0 {
   background: $yellow;
   .s-player {
     color: $yellow;
   }
 }
+
 .s-p-1 {
   background: $green;
   .s-player {
     color: $green;
   }
 }
+
 .s-kia {
   outline-color: $grey;
   background: $darkred;
   color: $red;
 }
+
 .s-act {
   outline-color: $darkred;
   transition: outline-color .7s ease-out;
@@ -290,8 +320,8 @@ body {
   top: 8px;
   left: -20px;
   transform: rotate(-90deg);
-  .soldier{
-    outline: 1px $lightgrey solid; 
+  .soldier {
+    outline: 1px $lightgrey solid;
     width: 24px;
     height: 26px;
     margin: 2px;
@@ -304,6 +334,6 @@ body {
     }
   }
   .soldier.s-act {
-    outline: 2px $darkred solid; 
+    outline: 2px $darkred solid;
   }
 }

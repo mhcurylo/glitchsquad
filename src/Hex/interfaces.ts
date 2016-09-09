@@ -3,7 +3,7 @@ import {Soldier} from '../Soldier/interfaces';
 import {Behaviour} from '../Engine/interfaces';
 export interface Hex {
   walls: WALL[];
-  type: HEX; 
+  type: HEX;
   soldiers: Soldier[];
   char?: string;
   classNames?: string;

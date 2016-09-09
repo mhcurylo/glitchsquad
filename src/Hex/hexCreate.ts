@@ -9,7 +9,7 @@ export function aHex(x: number, y: number): Hex {
     walls: randomWalls(),
     soldiers: [],
     acts: [],
-    type: Math.random() > 0.85 ? HEX.EMPTY : HEX.BASE 
+    type: Math.random() > 0.85 ? HEX.EMPTY : HEX.BASE
   }
 };
 
@@ -36,19 +36,19 @@ export function discHex(x: number, y: number): Hex {
   const h = aHex(x, y);
   h.type = HEX.DISC;
   h.walls = wallType(WALL.DOORCLOSED);
-  return h; 
+  return h;
 }
 
 function wallType(wall: WALL): WALL[] {
   return Array.from(new Array(6), () => wall);
-};
+}
 
 function randomWalls(): WALL[] {
   return Array.from(new Array(6), oneWall);
-
+  
   function oneWall(): WALL {
-    return  Math.random() > 0.6 ? WALL.CORRIDOR : 
-           (Math.random() > 0.8 ? WALL.DOOROPEN :
-           Math.floor(Math.random()*4));  
-  };
+    return Math.random() > 0.6 ? WALL.CORRIDOR :
+      (Math.random() > 0.8 ? WALL.DOOROPEN :
+        Math.floor(Math.random() * 4));
+  }
 }

@@ -1,5 +1,5 @@
 export const enum ANIME {
-   CHECKLEVEL,
-   DELAY200,
-   DELAY500
+  CHECKLEVEL,
+  DELAY200,
+  DELAY500
 }

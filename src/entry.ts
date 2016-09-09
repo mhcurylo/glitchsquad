@@ -4,6 +4,3 @@ import './main.scss';
 const dom = document.getElementById("glitchsquad");
 
 start(dom);
-
-
-

@@ -10,4 +10,3 @@ export function menuReducer(state: GameState, action: Action): GameState {
       return state;
   }
 }
-

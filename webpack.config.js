@@ -21,12 +21,12 @@ module.exports = {
         loaders: ['eslint'],
         include: path.resolve(dir, './src/')
       }
-    ], 
+    ],
     loaders: [
 
-       {test: /\.tsx?$/, loader: 'ts-loader'},
-       //{test: /\.tsx?$/, loader: 'babel?presets[]=es2015!ts-loader'},
-       {test: /\.scss$/, loaders: ["style", "css", "sass"]}
+      {test: /\.tsx?$/, loader: 'ts-loader'},
+      //{test: /\.tsx?$/, loader: 'babel?presets[]=es2015!ts-loader'},
+      {test: /\.scss$/, loaders: ["style", "css", "sass"]}
     ]
   },
   tslint: {
@@ -35,7 +35,7 @@ module.exports = {
   },
   plugins: [
     new Copy([
-      { 
+      {
         from: 'index.html',
       }
     ])

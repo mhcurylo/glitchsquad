@@ -11,7 +11,7 @@ export function gameReducer(state: GameState, action: Action): GameState {
   switch (action.do) {
     case DO.CHECKLEVEL:
       if (mapCheck(state.hexMap)) {
-         state.animations = [];
+        state.animations = [];
       } else {
         state.hexMap = mapGen();
       }
@@ -83,18 +83,19 @@ function shootPeople(x: number, y: number, w: WallCoords, t: number, state: Game
   }
   if (w.x !== x || w.y !== y) {
     hex.soldiers.forEach((s) => {
-      t = t + 1; 
+      t = t + 1;
       s.KIA ? '' : state = tryKill(s.i, t, state);
     });
-  };
-  return  {x: w.x, y: w.y, t, state};
+  }
+  ;
+  return {x: w.x, y: w.y, t, state};
 }
 
 
 function tryKill(si: number, t: number, state: GameState): GameState {
-  const r = Math.random() > 0.25 + (t*0.075);
-  console.log('Rolled 2 kill', !r, 0.1*t);
-  return r ? state : kill(si, state);  
+  const r = Math.random() > 0.25 + (t * 0.075);
+  console.log('Rolled 2 kill', !r, 0.1 * t);
+  return r ? state : kill(si, state);
 }
 
 function kill(si: number, state: GameState): GameState {
@@ -108,7 +109,7 @@ function shootHeavy(payload: {wc: WallCoords[]}, state: GameState): GameState {
 }
 
 function shootClosedWalls(payload: {wc: WallCoords[]}, state: GameState): GameState {
-  return payload.wc.reduce((p, c) => c.type === WALL.DOORCLOSED ? wallOpen(c.x, c.y, c.d, p) :  state, state);
+  return payload.wc.reduce((p, c) => c.type === WALL.DOORCLOSED ? wallOpen(c.x, c.y, c.d, p) : state, state);
 }
 
 function wallOpen(x, y, d, state) {
@@ -131,12 +132,12 @@ function eatAP(state: GameState): GameState {
 }
 
 function hackWall(hwd: HackWallData, state: GameState): GameState {
-  state.hexMap[hwd.ty][hwd.tx].walls[hwd.td] = WALL.DOOROPEN; 
+  state.hexMap[hwd.ty][hwd.tx].walls[hwd.td] = WALL.DOOROPEN;
   return updateBehaviour(eatAP(state));
 }
 
-function forceSkip(state: GameState): GameState { 
-    state.behaviours = [];
-    state.animations.push({anime: ANIME.DELAY200, payload: {do: DO.SKIP, payload: {}}});
-    return state;
+function forceSkip(state: GameState): GameState {
+  state.behaviours = [];
+  state.animations.push({anime: ANIME.DELAY200, payload: {do: DO.SKIP, payload: {}}});
+  return state;
 }

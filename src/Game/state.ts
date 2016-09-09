@@ -24,6 +24,6 @@ export function gamePlay(): GameState {
         return h.player === PLAYER.ONE ? state.evac[0] = [h.x, h.y] : state.evac[1] = [h.x, h.y];
     }
   }));
-
+  
   return nextSoldier(createSquads(state));
 }

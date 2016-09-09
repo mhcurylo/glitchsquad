@@ -12,5 +12,5 @@ export interface WallCoords {
   x: number,
   y: number,
   d: number,
-  type?: WALL 
+  type?: WALL
 }
