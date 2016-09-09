@@ -39,7 +39,7 @@ export function mapGen(): HexMap {
 }
 
 export function trimMap(map: HexMap): HexMap {
-  return map.map((l, li) => l.map((h, hi) => trimHex(li, h, hi)));
+  return map.map((l: Hex[], li: number): Hex[] => l.map((h: Hex, hi: number): Hex => trimHex(li, h, hi)));
   
   function trimHex(li: number, h: Hex, hi: number): Hex {
     h.walls = h.walls.map((w, wi) => trimWall(li, h, hi, w, wi));
