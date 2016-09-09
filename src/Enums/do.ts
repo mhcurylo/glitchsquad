@@ -8,5 +8,6 @@ export const enum DO {
   GRAB_DISC,
   SHOOT_RIFLE,
   SHOOT_HEAVY,
-  EVAC
+  EVAC,
+  GLITCH
 }

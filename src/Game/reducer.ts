@@ -77,7 +77,7 @@ function shootRifle(payload: {wc: WallCoords[]}, state: GameState): GameState {
   const res = payload.wc.reduce(({x, y, t, state}, c) =>
     shootPeople(x, y, c, t, state), {x, y, t: 0, state}
   );
-  return eatAP(res.state);
+  return eatAllAP(res.state);
 }
 
 function shootPeople(x: number, y: number, w: WallCoords, t: number, state: GameState): {x: number, y: number, t: number, state: GameState} {
@@ -111,7 +111,7 @@ function kill(si: number, state: GameState): GameState {
 }
 
 function shootHeavy(payload: {wc: WallCoords[]}, state: GameState): GameState {
-  return eatAP(shootRifle(payload, shootClosedWalls(payload, state)));
+  return eatAllAP(shootRifle(payload, shootClosedWalls(payload, state)));
 }
 
 function shootClosedWalls(payload: {wc: WallCoords[]}, state: GameState): GameState {
