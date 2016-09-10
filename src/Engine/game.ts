@@ -16,13 +16,11 @@ export class Game {
   }
   
   private act(action: Action): void {
-    const state = this.reducer(this.state, action);
-    
-    this.saveState(state, action);
     if (action.do === DO.GLITCH) {
-      return this.glitch(this.cloneSOA(this.initState), [...this.actions]);
+      return this.glitch(this.cloneDeep(this.initState), [...this.actions]);
     }
-
+    const state = this.reducer(this.state, action);
+    this.saveState(state, action);
     this.render(state);
     this.behave(state.behaviours, this.act);
     this.animate(state.animations, this.act);
@@ -32,7 +30,7 @@ export class Game {
 
   private saveState(state: GameState, action: Action): void {
     if (action.do === DO.PLAYGAME) {
-      this.initState = this.cloneSOA(state); 
+      this.initState = this.cloneDeep(state); 
       this.actions = [];
     } else {
       this.actions.push(action);
@@ -40,10 +38,24 @@ export class Game {
   }
 
   private glitch(state: GameState, actions: Action[]): void {
-
+    const action = actions.shift();
+    state.active = action.active;
+    const nstate: GameState = this.reducer(state, action);
+    this.render(nstate);
+    if (actions.length > 0) {
+      nstate.animations = [];
+      setTimeout(() => this.glitch(nstate, actions), 200); 
+    } else {
+      console.log(nstate, action);
+      nstate.animations = nstate.animations.filter(a => a.payload ? a.payload.do !== DO.GLITCH : true);
+      this.behave(nstate.behaviours, this.act);
+      this.animate(nstate.animations, this.act);
+      state.animations = [];
+      this.state = nstate;
+    }
   }
 
-  private cloneSOA<T>(soa: T): T {
+  private cloneDeep<T>(soa: T): T {
     return JSON.parse(JSON.stringify(soa));
   }
 }

@@ -7,9 +7,7 @@ export function gameRender(state: GameState): string {
   return state.location === LOCATION.GAME ? timerender(state) : ``;
   
   function timerender(state: GameState): string {
-    console.time('render time');
     const s = render(state);
-    console.timeEnd('render time');
     return s;
   }
   

@@ -19,24 +19,23 @@ export function gameReducer(state: GameState, action: Action): GameState {
     case DO.SKIP:
       return nextSoldier(state);
     case DO.MOVE:
-      return doerAble(state) ? moveSoldier(action.payload.x, action.payload.y, state) : state;
+      return doerAble(state) ? moveSoldier(action.payload.x, action.payload.y, state) : nextSoldier(state);
     case DO.HACK:
-      return doerAble(state) ? hackWall(action.payload.hwd, state) : state;
+      return doerAble(state) ? hackWall(action.payload.hwd, state) : nextSoldier(state);
     case DO.GRAB_DISC:
-      return doerAble(state) ? grabDisc(state) : state;
+      return doerAble(state) ? grabDisc(state) : nextSoldier(state);
     case DO.EVAC:
-      return doerAble(state) ? win(action.payload.winner, state) : state;
+      return doerAble(state) ? win(action.payload.winner, state) : nextSoldier(state);
     case DO.SHOOT_RIFLE:
-      return doerAble(state) ? shootRifle(action.payload, state) : state;
+      return doerAble(state) ? shootRifle(action.payload, state) : nextSoldier(state);
     case DO.SHOOT_HEAVY:
-      return doerAble(state) ? shootHeavy(action.payload, state) : state;
+      return doerAble(state) ? shootHeavy(action.payload, state) : nextSoldier(state);
     default:
       return state;
   }
 }
 
 export function nextSoldier(state: GameState): GameState {
-  
   const {soldiers, active} = state;
   if (active > -1 && soldiers.findIndex(s => (s.player !== soldiers[active].player && !s.KIA)) === -1) {
     return win(soldiers[active].player, state);
@@ -103,8 +102,9 @@ function shootPeople(x: number, y: number, w: WallCoords, t: number, state: Game
 
 
 function tryKill(si: number, t: number, state: GameState): GameState {
-  const r = Math.random()*100 > t;
-  return r ? kill(si, state) : state;
+  const r = Math.random()*100 > t; 
+  const g = (r && (t > 50) || (!r && t < 50));
+  return r ? kill(si, g ? glitch(state) : state) : g ? glitch(state) : state;
 }
 
 function kill(si: number, state: GameState): GameState {
@@ -152,10 +152,15 @@ function hackWall(hwd: HackWallData, state: GameState): GameState {
 
 function forceSkip(state: GameState): GameState {
   state.behaviours = [];
-  state.animations.push({anime: ANIME.DELAY200, payload: {do: DO.SKIP, payload: {}}});
+  state.animations.push({anime: ANIME.DELAY200, payload: {do: DO.SKIP, active: state.active, player: state.soldiers[state.active].player, payload: {}}});
   return state;
 }
 
 function doerAble(state: GameState): boolean {
   return !state.soldiers[state.active].KIA; 
 }
+
+function glitch(state: GameState): GameState {
+  state.animations.push({anime: ANIME.DELAY200, payload: {do: DO.GLITCH, active: state.active, player: state.soldiers[state.active].player, payload: {}}});
+  return state;
+};
