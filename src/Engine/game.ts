@@ -23,7 +23,11 @@ export class Game {
     this.saveState(state, action);
     this.render(state);
     this.behave(state.behaviours, this.act);
-    this.animate(state.animations, this.act);
+    this.animate(state.animations
+      .findIndex(a => (a.payload && a.payload.do === DO.GLITCH)) > -1 ?
+      state.animations
+        .filter(a => (a.payload && a.payload.do === DO.GLITCH)) 
+      : state.animations, this.act);
     state.animations = [];
     this.state = state;
   }
@@ -31,9 +35,9 @@ export class Game {
   private saveState(state: GameState, action: Action): void {
     if (action.do === DO.PLAYGAME) {
       this.initState = this.cloneDeep(state); 
-      this.actions = [];
+      this.actions = []; 
     } else {
-      this.actions.push(action);
+      action.do !== DO.WIN ? this.actions.push(action) : '';
     }
   }
 
@@ -44,10 +48,15 @@ export class Game {
     this.render(nstate);
     if (actions.length > 0) {
       nstate.animations = [];
-      setTimeout(() => this.glitch(nstate, actions), 200); 
+      setTimeout(() => this.glitch(nstate, actions), 140); 
     } else {
       console.log(nstate, action);
-      nstate.animations = nstate.animations.filter(a => a.payload ? a.payload.do !== DO.GLITCH : true);
+      nstate.animations = nstate.animations
+        .filter(a => a.payload ? a.payload.do !== DO.GLITCH : true);
+      nstate.animations = nstate.animations
+        .findIndex(a => (a.payload && a.payload.do === DO.WIN)) > -1 ?
+        nstate.animations
+          .filter(a => (a.payload && a.payload.do === DO.SKIP)) : nstate.animations; 
       this.behave(nstate.behaviours, this.act);
       this.animate(nstate.animations, this.act);
       state.animations = [];

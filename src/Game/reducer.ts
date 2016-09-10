@@ -24,8 +24,10 @@ export function gameReducer(state: GameState, action: Action): GameState {
       return doerAble(state) ? hackWall(action.payload.hwd, state) : nextSoldier(state);
     case DO.GRAB_DISC:
       return doerAble(state) ? grabDisc(state) : nextSoldier(state);
-    case DO.EVAC:
+    case DO.WIN:
       return doerAble(state) ? win(action.payload.winner, state) : nextSoldier(state);
+    case DO.EVAC:
+      return doerAble(state) ? delayWin(action.payload.winner, state) : nextSoldier(state);
     case DO.SHOOT_RIFLE:
       return doerAble(state) ? shootRifle(action.payload, state) : nextSoldier(state);
     case DO.SHOOT_HEAVY:
@@ -125,6 +127,11 @@ function shootClosedWalls(payload: {wc: WallCoords[]}, state: GameState): GameSt
 
 function wallOpen(x, y, d, state) {
   state.hexMap[y][x].walls[d] = WALL.DOOROPEN;
+  return state;
+}
+
+function delayWin(winner: PLAYER, state: GameState): GameState {
+  state.animations.push({anime: ANIME.DELAY500, payload: {do: DO.WIN, active: state.active, player: winner, payload: {winner: winner}}});
   return state;
 }
 

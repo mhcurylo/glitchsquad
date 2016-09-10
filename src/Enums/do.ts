@@ -9,5 +9,6 @@ export const enum DO {
   SHOOT_RIFLE,
   SHOOT_HEAVY,
   EVAC,
-  GLITCH
+  GLITCH,
+  WIN
 }

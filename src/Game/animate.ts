@@ -6,5 +6,8 @@ export function gameAnimate(animation: Animation, doIt: (action: Action) => void
     case ANIME.DELAY200:
       setTimeout(() => doIt(animation.payload), 200);
       break;
+    case ANIME.DELAY500:
+      setTimeout(() => doIt(animation.payload), 500);
+      break;
   }
 }
