@@ -23,6 +23,7 @@ export class Game {
     this.saveState(state, action);
     this.render(state);
     this.behave(state.behaviours, this.act);
+    console.log(state.behaviours);
     this.animate(state.animations
       .findIndex(a => (a.payload && a.payload.do === DO.GLITCH)) > -1 ?
       state.animations
@@ -44,14 +45,16 @@ export class Game {
   private glitch(state: GameState, actions: Action[]): void {
     const action = actions.shift();
     state.active = action.active;
-    state.glitch = true;
-    const nstate: GameState = this.reducer(state, action);
-    this.render(nstate);
     if (actions.length > 0) {
+      state.glitch = true;
+      const nstate: GameState = this.reducer(state, action);
+      this.render(nstate);
       nstate.animations = [];
       setTimeout(() => this.glitch(nstate, actions), 140); 
     } else {
-      nstate.glitch = false;
+      state.glitch = false;
+      const nstate: GameState = this.reducer(state, action);
+      this.render(nstate);
       nstate.animations = nstate.animations
         .filter(a => a.payload ? a.payload.do !== DO.GLITCH : true);
       nstate.animations = nstate.animations

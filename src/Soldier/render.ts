@@ -9,11 +9,10 @@ export function squadRender(soldiers: Soldier[], state: GameState, full?: boolea
   function renderSoldier(soldier: Soldier): string {
     const act = soldier.i === state.active;
     return `<div class="soldier s-t-${soldier.type}
-			      s-p-${soldier.player}
-			      ${soldier.KIA ? 's-kia' : ''}
-			      ${act ? 's-act' : ''}
-                              ${soldier.disc ? 's-data' : ''}
-			      ${soldier.classNames ? soldier.classNames : ''}">
+			      s-p-${soldier.player} 
+			      ${soldier.KIA ? ' s-kia' : ''}
+			      ${act ? ' s-act' : ''}
+			      ${soldier.disc ? ' s-data' : ''}">
      <div class="s-code">${soldier.code}</div>
      <div class="s-name">${soldier.name}</div>
      ${(full && act) ? '<div class="s-player"> P' + (soldier.player + 1) + '</div>' : ''}

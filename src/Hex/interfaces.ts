@@ -6,9 +6,6 @@ export interface Hex {
   type: HEX;
   soldiers: Soldier[];
   char?: string;
-  classNames?: string;
-  sub?: string;
-  hoover?: string;
   player?: PLAYER;
   acts: Behaviour[];
   x: number;

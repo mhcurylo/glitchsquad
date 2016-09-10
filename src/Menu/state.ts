@@ -5,13 +5,13 @@ import {Hex} from '../Hex/interfaces';
 import {symbolHex} from '../Hex/hexCreate';
 import {trimMap} from '../Game/mapGen';
 
-const b = [7, 8, 9, 10].map(n => clickToPlay(`hex-${n}-4`));
+const b = [4, 5, 6, 7, 8, 9, 10].map(n => clickToPlay(`hex-${n}-4`));
 const hexMap = [
   '####   ## ',
   '### Glitch',
   '##  Squad',
   '##  ',
-  '#####  PLAY'
+  '####HOTSEAT'
 ].map((l, y) => toHex(y, l));
 
 export function menuState(winner?: PLAYER, soldiers?: Soldier[]): GameState {

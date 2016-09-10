@@ -14,8 +14,7 @@ export function mapRender(state: GameState): string {
     </ol>`
     
     function hexRender(hex: Hex): string {
-      return `<li class="hex ${hex.type === HEX.EMPTY ? 'empty' : ''}  
-                     ${hex.classNames ? hex.classNames : ''}"
+      return `<li class="hex ${hex.type === HEX.EMPTY ? 'empty' : ''}"
 	      id="hex-${hex.x}-${hex.y}">
 	       ${hex.type !== HEX.EMPTY ? walls(hex.walls) : ''}
                ${squadRender(hex.soldiers, state)}

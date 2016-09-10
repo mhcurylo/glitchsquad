@@ -20,6 +20,30 @@ body {
   color: $grey;
 }
 
+@keyframes glitched{
+  0%   {color: red;}
+  25%  {color: yellow;}
+  50%  {color: blue;}
+  100% {color: green;}
+}
+
+.glitch::after {
+  content: 'glitch';
+  color: red;
+  opacity: 0.8;
+  font-size: 300px;
+  top: 0px;
+  position: absolute;
+  color: red;
+  height: 100%;
+  width: 100%;
+  text-align: center;
+  margin-top: 20px;
+  animation-name: glitched;
+  animation-duration: 0.15s;
+  animation-iteration-count: infinite;
+}
+
 .info-header {
   height: 50px;
   color: $darkred;
@@ -312,6 +336,24 @@ body {
   transition: outline-color .7s ease-out;
 }
 
+.s-data::after {
+  content: 'D';
+  color: $grey;
+  position: absolute;
+  opacity: 0.8;
+  font-size: 32px;
+  top: -11px;
+  left: -10px;
+  background: $white;
+  width: 32px;
+  height: 32px;
+  text-align: center;
+  font-weight: 500;
+  border-radius: 16px;
+  line-height: 1;
+  border: 2px $grey solid;
+}
+
 .hex .soldiers {
   z-index: 5;
   position: absolute;
@@ -335,5 +377,22 @@ body {
   }
   .soldier.s-act {
     outline: 2px $darkred solid;
+  }
+  .s-data::after {
+    content: 'D';
+    color: $grey;
+    position: absolute;
+    opacity: 0.8;
+    font-size: 12px;
+    top: -6px;
+    left: -6px;
+    background: $white;
+    width: 12px;
+    height: 12px;
+    text-align: center;
+    font-weight: 500;
+    border-radius: 6px;
+    line-height: 1;
+    border: 1px $grey solid;
   }
 }
