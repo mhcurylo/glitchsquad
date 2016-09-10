@@ -16,7 +16,7 @@ export class Game {
   }
   
   private act(action: Action): void {
-    if (action.do === DO.GLITCH) {
+    if (action.do === DO.GLITCH ||(this.actions.length > 4 && Math.random() > 0.98)) {
       return this.glitch(this.cloneDeep(this.initState), [...this.actions]);
     }
     const state = this.reducer(this.state, action);

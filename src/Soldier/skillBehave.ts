@@ -86,7 +86,7 @@ function shootRifle(state: GameState): GameState {
 
 function shootHeavy(state: GameState): GameState {
   const {x, y, player} = state.soldiers[state.active];
-  if (!able(state, SKILL.SHOOT_HEAVY)) {
+  if (!able(state, SKILL.SHOOT_HEAVY, 2)) {
     return state;
   }
   
@@ -191,7 +191,7 @@ function moves(state: GameState): GameState {
   };
 };
 
-function able(state, skill: SKILL): boolean {
+function able(state, skill: SKILL, cost = 1): boolean {
   const {KIA, moves, skills} = state.soldiers[state.active];
-  return (!KIA && moves > 0 && skills.indexOf(skill) > -1);
+  return (!KIA && moves >= cost && skills.indexOf(skill) > -1);
 }

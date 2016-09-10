@@ -86,9 +86,9 @@ function shootPeople(x: number, y: number, w: WallCoords, t: number, state: Game
   const hex = state.hexMap[w.y][w.x];
   const soldier = state.soldiers[state.active];
   if ((w.type === WALL.DOOROPEN || w.type === WALL.DOORCLOSED) && (soldier.x !== x || soldier.y !== y)) {
-    t = t + 8;
+    t = t + 10;
   } else {
-    t = t + 1;
+    t = t + 3;
   } 
   if (w.x !== x || w.y !== y) {
     hex.soldiers.forEach((s) => {
@@ -102,8 +102,10 @@ function shootPeople(x: number, y: number, w: WallCoords, t: number, state: Game
 
 
 function tryKill(si: number, t: number, state: GameState): GameState {
+  const c = t > 95 ? 95 : t;
   const r = Math.random()*100 > t; 
   const g = (r && (t > 50) || (!r && t < 50));
+  console.log('chance ', c, 'from sum', t, 'gives', r, 'causes', g);
   return r ? kill(si, g ? glitch(state) : state) : g ? glitch(state) : state;
 }
 
