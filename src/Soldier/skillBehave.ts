@@ -16,7 +16,7 @@ function evac(state: GameState): GameState {
     id: `evac-${state.active}`,
     display: 'EVAC',
     event: 'onclick',
-    action: {do: DO.EVAC, payload: {winner: state.soldiers[state.active].player}}
+    action: {do: DO.EVAC, active: state.active, player: state.soldiers[state.active].player, payload: {winner: state.soldiers[state.active].player}}
   })
     : '';
   return state;
@@ -27,7 +27,7 @@ function grab(state: GameState): GameState {
     id: `grab-${state.active}`,
     display: 'GRAB',
     event: 'onclick',
-    action: {do: DO.GRAB_DISC, payload: {}}
+    action: {do: DO.GRAB_DISC, active: state.active, player: state.soldiers[state.active].player, payload: {}}
   })
     : '';
   return state;
@@ -38,7 +38,7 @@ function skip(state: GameState): GameState {
     id: `skip-${state.active}`,
     display: 'SKIP',
     event: 'onclick',
-    action: {do: DO.SKIP, payload: {}}
+    action: {do: DO.SKIP, active: state.active, player: state.soldiers[state.active].player, payload: {}}
   })
     : '';
   return state;
@@ -74,6 +74,8 @@ function shootRifle(state: GameState): GameState {
       event: 'onclick',
       action: {
         do: DO.SHOOT_RIFLE,
+        active: state.active,
+        player: player,
         payload: {
           wc: wc
         }
@@ -106,6 +108,8 @@ function shootHeavy(state: GameState): GameState {
       event: 'onclick',
       action: {
         do: DO.SHOOT_HEAVY,
+        active: state.active,
+        player: player,
         payload: {
           wc: wc
         }
@@ -115,7 +119,7 @@ function shootHeavy(state: GameState): GameState {
 }
 
 function hack(state: GameState): GameState {
-  const {x, y} = state.soldiers[state.active];
+  const {x, y, player} = state.soldiers[state.active];
   if (!able(state, SKILL.OPEN)) {
     return state;
   }
@@ -138,6 +142,8 @@ function hack(state: GameState): GameState {
       event: 'onclick',
       action: {
         do: DO.HACK,
+        active: state.active,
+        player: player,
         payload: {
           hwd: hwd
         }
@@ -174,6 +180,8 @@ function moves(state: GameState): GameState {
       event: 'onclick',
       action: {
         do: DO.MOVE,
+        active: state.active,
+        player: player,
         payload: {
           x: x,
           y: y

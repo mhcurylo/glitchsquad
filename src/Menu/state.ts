@@ -30,6 +30,8 @@ function clickToPlay(id: string): Behaviour {
     event: 'onclick',
     action: {
       do: DO.PLAYGAME,
+      player: 0,
+      active: 0,
       payload: {}
     }
   };

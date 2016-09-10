@@ -12,7 +12,7 @@ export class Game {
               private animate: (animations: Animation[], doIt: (Action) => void) => void) {
     this.act = this.act.bind(this);
     this.glitch = this.glitch.bind(this);
-    this.act({do: DO.NOT, payload: {}});
+    this.act({do: DO.NOT, active: 0, player: 0, payload: {}});
   }
   
   private act(action: Action): void {

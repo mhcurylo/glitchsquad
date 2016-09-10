@@ -19,23 +19,24 @@ export function gameReducer(state: GameState, action: Action): GameState {
     case DO.SKIP:
       return nextSoldier(state);
     case DO.MOVE:
-      return moveSoldier(action.payload.x, action.payload.y, state);
+      return doerAble(state) ? moveSoldier(action.payload.x, action.payload.y, state) : state;
     case DO.HACK:
-      return hackWall(action.payload.hwd, state);
+      return doerAble(state) ? hackWall(action.payload.hwd, state) : state;
     case DO.GRAB_DISC:
-      return grabDisc(state);
+      return doerAble(state) ? grabDisc(state) : state;
     case DO.EVAC:
-      return win(action.payload.winner, state);
+      return doerAble(state) ? win(action.payload.winner, state) : state;
     case DO.SHOOT_RIFLE:
-      return shootRifle(action.payload, state);
+      return doerAble(state) ? shootRifle(action.payload, state) : state;
     case DO.SHOOT_HEAVY:
-      return shootHeavy(action.payload, state);
+      return doerAble(state) ? shootHeavy(action.payload, state) : state;
     default:
       return state;
   }
 }
 
 export function nextSoldier(state: GameState): GameState {
+  
   const {soldiers, active} = state;
   if (active > -1 && soldiers.findIndex(s => (s.player !== soldiers[active].player && !s.KIA)) === -1) {
     return win(soldiers[active].player, state);
@@ -66,9 +67,11 @@ function moveSoldier(x, y, state: GameState): GameState {
 }
 
 function grabDisc(state: GameState): GameState {
-  state.soldiers.map(s => Object.assign(s, {disc: false}));
   const s = state.soldiers[state.active];
-  s.disc = true;
+  if (s.x === state.disc[0] && s.y === state.disc[1]) {
+    state.soldiers.map(s => Object.assign(s, {disc: false}));
+    s.disc = true;
+  }
   return updateBehaviour(eatAP(state));
 }
 
@@ -151,4 +154,8 @@ function forceSkip(state: GameState): GameState {
   state.behaviours = [];
   state.animations.push({anime: ANIME.DELAY200, payload: {do: DO.SKIP, payload: {}}});
   return state;
+}
+
+function doerAble(state: GameState): boolean {
+  return !state.soldiers[state.active].KIA; 
 }

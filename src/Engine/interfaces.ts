@@ -4,7 +4,9 @@ import {Soldier} from '../Soldier/interfaces';
 
 export interface Action {
   do: DO;
-  payload: any;
+  active: number,
+  player: PLAYER,
+  payload: any
 }
 
 export interface Animation {
