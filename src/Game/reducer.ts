@@ -107,7 +107,6 @@ function tryKill(si: number, t: number, state: GameState): GameState {
   const c = t > 95 ? 95 : t;
   const r = Math.random()*100 > t; 
   const g = (r && (t > 50) || (!r && t < 50));
-  console.log('chance ', c, 'from sum', t, 'gives', r, 'causes', g);
   return r ? kill(si, g ? glitch(state) : state) : g ? glitch(state) : state;
 }
 

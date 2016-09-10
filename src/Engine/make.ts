@@ -11,7 +11,6 @@ export function behave(behaviours: Behaviour[], doIt: (Action) => void): void {
   behaviours.forEach(b => {
     const e = document.getElementById(b.id);
     e ? e[b.event] = () => doIt(b.action) : '';
-    console.log(e, b);
   })
 }
 

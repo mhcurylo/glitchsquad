@@ -23,7 +23,6 @@ export class Game {
     this.saveState(state, action);
     this.render(state);
     this.behave(state.behaviours, this.act);
-    console.log(state.behaviours);
     this.animate(state.animations
       .findIndex(a => (a.payload && a.payload.do === DO.GLITCH)) > -1 ?
       state.animations
