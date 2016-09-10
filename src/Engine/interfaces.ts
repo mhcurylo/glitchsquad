@@ -29,6 +29,7 @@ export interface GameState {
   behaviours: Behaviour[];
   soldiers?: Soldier[];
   lastWinner: PLAYER | boolean;
+  glitch?: boolean;
   active?: number;
   evac?: number[][];
   disc?: number[];

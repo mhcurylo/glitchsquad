@@ -16,7 +16,7 @@ export class Game {
   }
   
   private act(action: Action): void {
-    if (action.do === DO.GLITCH ||(this.actions.length > 4 && Math.random() > 0.98)) {
+    if (action.do === DO.GLITCH || (this.actions.length > 4 && Math.random() > 0.985)) {
       return this.glitch(this.cloneDeep(this.initState), [...this.actions]);
     }
     const state = this.reducer(this.state, action);
@@ -44,13 +44,14 @@ export class Game {
   private glitch(state: GameState, actions: Action[]): void {
     const action = actions.shift();
     state.active = action.active;
+    state.glitch = true;
     const nstate: GameState = this.reducer(state, action);
     this.render(nstate);
     if (actions.length > 0) {
       nstate.animations = [];
       setTimeout(() => this.glitch(nstate, actions), 140); 
     } else {
-      console.log(nstate, action);
+      nstate.glitch = false;
       nstate.animations = nstate.animations
         .filter(a => a.payload ? a.payload.do !== DO.GLITCH : true);
       nstate.animations = nstate.animations
@@ -59,7 +60,6 @@ export class Game {
           .filter(a => (a.payload && a.payload.do === DO.SKIP)) : nstate.animations; 
       this.behave(nstate.behaviours, this.act);
       this.animate(nstate.animations, this.act);
-      state.animations = [];
       this.state = nstate;
     }
   }

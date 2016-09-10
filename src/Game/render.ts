@@ -14,7 +14,7 @@ export function gameRender(state: GameState): string {
   
   function render(state: GameState): string {
     return `
-    <div class="game-play">
+    <div class="game-play ${state.glitch ? 'glitch' : ''}">
       <div class="info-header">HOT SEAT</div>
       <div class="game-hex"> ${mapRender(state)}</div>
       <div class="squads-display"> ${squadRender(state.soldiers, state, true)}</div>
