@@ -39,7 +39,7 @@ export function gameReducer(state: GameState, action: Action): GameState {
 
 export function nextSoldier(state: GameState): GameState {
   const {soldiers, active} = state;
-  if (active > -1 && soldiers.findIndex(s => (s.player !== soldiers[active].player && !s.KIA)) === -1) {
+  if (soldiers && soldiers.length > 0 && active > -1 && soldiers.findIndex(s => (s.player !== soldiers[active].player && !s.KIA)) === -1) {
     return win(soldiers[active].player, state);
   }
   state.active = (state.active + 1) % state.soldiers.length;

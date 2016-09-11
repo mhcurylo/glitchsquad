@@ -16,6 +16,8 @@ export class OnlineGame {
     this.reducer = this.reducer.bind(this);
     this.animate = this.animate.bind(this);
     this.initPlayers();
+    this.initState = this.cloneDeep(state); 
+    this.actions = []; 
     this.act({do: DO.NOT, active: 0, player: 0, payload: {}});
   }
   
@@ -44,6 +46,13 @@ export class OnlineGame {
     this.p1.game = this;
     this.p0.socket['on']('action', a => (a.player === PLAYER.ONE) ? this.act(a) : '');
     this.p1.socket['on']('action', a => (a.player === PLAYER.TWO) ? this.act(a) : '');
+    this.p0.socket['on']('disconnect', () => this.end());
+    this.p1.socket['on']('disconnect', () => this.end());
+  }
+
+  private end() {
+    this.p0.socket ? this.p0.socket['off']('action') : '';
+    this.p1.socket ? this.p1.socket['off']('action') : '';
   }
 
   private emit(state):void {
