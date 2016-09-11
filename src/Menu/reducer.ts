@@ -1,11 +1,25 @@
 import {GameState, Action} from '../Engine/interfaces';
-import {DO} from '../Enums/enums';
+import {DO, ANIME} from '../Enums/enums';
 import {gamePlay} from '../Game/state.ts';
+import {toHex} from './state';
+
+const hexMap = [
+  '####   ## ',
+  'CONNECTING',
+  'Squad',
+  '##  ',
+].map((l, y) => toHex(y, l));
 
 export function menuReducer(state: GameState, action: Action): GameState {
   switch (action.do) {
     case DO.PLAYGAME:
       return gamePlay();
+    case DO.ONLINE:
+      console.log('ONLINE');
+      state.hexMap = hexMap;
+      state.local = false;
+      state.animations = [{anime: ANIME.DELAY200, payload: {do: DO.ONLINE, payload: {}}}];
+      return state;
     default:
       return state;
   }

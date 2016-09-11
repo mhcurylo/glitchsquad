@@ -13,7 +13,7 @@ module.exports = {
   output: {
     path: path.resolve(dir, './build'),
     publicPath: '/',
-    filename: "bundle.js"
+    filename: "shared.js"
   },
   module: {
     preLoaders: [

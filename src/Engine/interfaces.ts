@@ -27,6 +27,7 @@ export interface GameState {
   hexMap: HexMap;
   animations: Animation[];
   behaviours: Behaviour[];
+  local: boolean;
   soldiers?: Soldier[];
   lastWinner: PLAYER | boolean;
   glitch?: boolean;

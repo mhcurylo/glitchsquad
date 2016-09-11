@@ -1,9 +1,12 @@
 import {Action, Behaviour, GameState, Animation} from './interfaces';
 import {DO} from '../Enums/do';
+import {menuState} from '../Menu/state';
+declare const io;
 
 export class Game {
   initState: GameState;
   actions: Action[] = [];
+  socket: any;
 
   constructor(private state: GameState,
               private render: (state: GameState) => void,
@@ -16,20 +19,35 @@ export class Game {
   }
   
   private act(action: Action): void {
-    if (action.do === DO.GLITCH || (this.actions.length > 4 && Math.random() > 0.985)) {
-      return this.glitch(this.cloneDeep(this.initState), [...this.actions]);
-    }
-    const state = this.reducer(this.state, action);
-    this.saveState(state, action);
-    this.render(state);
-    this.behave(state.behaviours, this.act);
-    this.animate(state.animations
-      .findIndex(a => (a.payload && a.payload.do === DO.GLITCH)) > -1 ?
+    if (this.state.local === true) {
+      if (action.do === DO.ONLINE) {
+        this.initSocket(); 
+      }
+      if (action.do === DO.GLITCH || (this.actions.length > 4 && Math.random() > 0.985)) {
+        return this.glitch(this.cloneDeep(this.initState), [...this.actions]);
+      }
+      const state = this.reducer(this.state, action);
+      this.saveState(state, action);
+      this.render(state);
+      this.behave(state.behaviours, this.act);
+      this.animate(state.animations
+        .findIndex(a => (a.payload && a.payload.do === DO.GLITCH)) > -1 ?
       state.animations
         .filter(a => (a.payload && a.payload.do === DO.GLITCH)) 
-      : state.animations, this.act);
-    state.animations = [];
-    this.state = state;
+        : state.animations, this.act);
+      state.animations = [];
+      this.state = state;
+    } else {
+     this.emit(action).then((s) => { 
+       this.state = s;
+       this.render(s);
+       this.behave(s.behaviours, this.act);
+     });
+    }
+  }
+
+  private emit(action: Action): Promise<GameState> {
+    return this.socket['emit']('action', action);;
   }
 
   private saveState(state: GameState, action: Action): void {
@@ -64,6 +82,31 @@ export class Game {
       this.animate(nstate.animations, this.act);
       this.state = nstate;
     }
+  }
+
+  private initSocket() {
+    console.log('init socket');
+    this.socket = window['io']({ upgrade: false, transports: ["websocket"] });
+    this.socket['on']('state', s => {
+      this.state = s;
+      this.render(s);
+      this.behave(s.behaviours, this.act);
+    });
+
+    this.socket['on']("connect", function () {
+        this.render(this.state);
+        console.log('connected');
+    });
+    this.socket['on']("disconnect", function () {
+	this.state = menuState();
+        this.render(this.state);
+        alert('disconnected');
+    });
+
+    this.socket['on']("error", function () {
+        this.state = menuState();
+        alert('server erro');
+    });
   }
 
   private cloneDeep<T>(soa: T): T {

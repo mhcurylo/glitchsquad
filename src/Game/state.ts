@@ -13,6 +13,7 @@ export function gamePlay(): GameState {
     soldiers: [],
     active: -1,
     lastWinner: false,
+    local: true,
     disc: [],
     evac: [[], []]
   };

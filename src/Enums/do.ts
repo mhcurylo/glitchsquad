@@ -10,5 +10,8 @@ export const enum DO {
   SHOOT_HEAVY,
   EVAC,
   GLITCH,
-  WIN
+  WIN,
+  ONLINE,
+  CONNECTED,
+  DISONNECTED
 }
