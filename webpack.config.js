@@ -15,7 +15,7 @@ module.exports = {
   output: {
     library: 'glitchSquad',
     libraryTarget: "this",
-    path: path.resolve(dir, './build'),
+    path: path.resolve(dir, './public'),
     publicPath: '/',
     filename: "shared.js"
   },
