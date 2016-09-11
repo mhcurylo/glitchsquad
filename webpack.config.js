@@ -9,8 +9,12 @@ module.exports = {
   resolve: {
     extensions: ['', '.webpack.js', '.web.js', '.ts', '.js']
   },
-  entry: path.resolve(dir, './src/entry.ts'),
+  entry: {
+	  client: path.resolve(dir, './src/shared.ts')
+  },
   output: {
+    library: 'glitchSquad',
+    libraryTarget: "this",
     path: path.resolve(dir, './build'),
     publicPath: '/',
     filename: "shared.js"
@@ -41,7 +45,7 @@ module.exports = {
         from: 'index.html',
       },
       {
-	from: 'server.js'
+        from: 'server.js',
       }
     ])
   ]

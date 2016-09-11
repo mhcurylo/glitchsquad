@@ -7,6 +7,6 @@
     "module": "commonjs"
   },
   "files": [
-    "./src/entry.ts"
+    "./src/shared.ts"
   ]
 }
