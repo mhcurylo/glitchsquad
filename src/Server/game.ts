@@ -43,7 +43,7 @@ export class OnlineGame {
     this.p0.game = this;
     this.p1.game = this;
     this.p0.socket['on']('action', a => (a.player === PLAYER.ONE) ? this.act(a) : '');
-    this.p0.socket['on']('action', a => (a.player === PLAYER.TWO) ? this.act(a) : '');
+    this.p1.socket['on']('action', a => (a.player === PLAYER.TWO) ? this.act(a) : '');
   }
 
   private emit(state):void {
