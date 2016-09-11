@@ -47,6 +47,7 @@ export class Game {
   }
 
   private emit(action: Action):void {
+    console.log('emiting', action);
     this.socket['emit']('action', action);
   }
 
@@ -85,12 +86,13 @@ export class Game {
   }
 
   private initSocket() {
-    console.log('init socket');
     this.socket = window['io']({ upgrade: false, transports: ["websocket"] });
     this.socket['on']('state', s => {
-      this.state = s;
-      this.render(s);
-      this.behave(s.behaviours, this.act);
+      console.log('rec', s);     
+      const stateP = s;
+      this.state = stateP;
+      this.render(stateP);
+      this.behave(stateP.behaviours, this.act);
     });
 
     this.socket['on']("connect", () => {
