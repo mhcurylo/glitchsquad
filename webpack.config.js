@@ -39,6 +39,9 @@ module.exports = {
     new Copy([
       {
         from: 'index.html',
+      },
+      {
+	from: 'index.js'
       }
     ])
   ]
