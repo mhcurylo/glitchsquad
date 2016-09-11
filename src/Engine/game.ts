@@ -98,14 +98,12 @@ export class Game {
     });
     this.socket['on']("disconnect", () => {
 	this.state = menuState();
-        this.socket['disconnect']();
         this.render(this.state);
         alert('disconnected');
     });
 
     this.socket['on']("error", () => {
         this.state = menuState();
-        this.socket['disconnect']();
         alert('server error');
     });
   }
