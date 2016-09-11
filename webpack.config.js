@@ -2,6 +2,7 @@ const path = require('path');
 const dir = __dirname;
 const webpack = require('webpack');
 const Copy = require('copy-webpack-plugin');
+const ExtractTextPlugin = require("extract-text-webpack-plugin");
 
 module.exports = {
   context: path.resolve(dir, './src/'),
@@ -26,7 +27,7 @@ module.exports = {
 
       {test: /\.tsx?$/, loader: 'ts-loader'},
       //{test: /\.tsx?$/, loader: 'babel?presets[]=es2015!ts-loader'},
-      {test: /\.scss$/, loaders: ["style", "css", "sass"]}
+      {test: /\.scss$/, loader: ExtractTextPlugin.extract(["css", "sass"])}
     ]
   },
   tslint: {
@@ -34,6 +35,7 @@ module.exports = {
     failOnHint: true
   },
   plugins: [
+    new ExtractTextPlugin("[name].css"),
     new Copy([
       {
         from: 'index.html',

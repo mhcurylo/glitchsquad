@@ -11,10 +11,6 @@ conf.plugins.push(
     },
     concurrency: 3,
   })
-//  new webpack.optimize.UglifyJsPlugin({
-//    compress: true,
-//    test: /\.(js|jsx|ts)$/
-//  })
 );
 
 module.exports = conf;
