@@ -47,7 +47,6 @@ export class Game {
   }
 
   private emit(action: Action):void {
-    console.log('emiting', action);
     this.socket['emit']('action', action);
   }
 
@@ -88,7 +87,6 @@ export class Game {
   private initSocket() {
     this.socket = window['io']({ upgrade: false, transports: ["websocket"] });
     this.socket['on']('state', s => {
-      console.log('rec', s);     
       const stateP = s;
       this.state = stateP;
       this.render(stateP);
@@ -97,17 +95,18 @@ export class Game {
 
     this.socket['on']("connect", () => {
         this.render(this.state);
-        console.log('connected');
     });
     this.socket['on']("disconnect", () => {
 	this.state = menuState();
+        this.socket['disconnect']();
         this.render(this.state);
         alert('disconnected');
     });
 
     this.socket['on']("error", () => {
         this.state = menuState();
-        alert('server erro');
+        this.socket['disconnect']();
+        alert('server error');
     });
   }
 

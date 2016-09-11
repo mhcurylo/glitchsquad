@@ -51,8 +51,8 @@ export class OnlineGame {
   }
 
   private end() {
-    this.p0.socket ? this.p0.socket['off']('action') : '';
-    this.p1.socket ? this.p1.socket['off']('action') : '';
+    this.p0.socket ? this.p0.socket['removeAllListeners']('action') : '';
+    this.p1.socket ? this.p1.socket['removeAllListeners']('action') : '';
   }
 
   private emit(state):void {
