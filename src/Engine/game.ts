@@ -15,6 +15,10 @@ export class Game {
               private animate: (animations: Animation[], doIt: (Action) => void) => void) {
     this.act = this.act.bind(this);
     this.glitch = this.glitch.bind(this);
+    this.render = this.render.bind(this);
+    this.reducer = this.reducer.bind(this);
+    this.behave = this.behave.bind(this);
+    this.animate = this.animate.bind(this);
     this.act({do: DO.NOT, active: 0, player: 0, payload: {}});
   }
   
@@ -38,16 +42,12 @@ export class Game {
       state.animations = [];
       this.state = state;
     } else {
-     this.emit(action).then((s) => { 
-       this.state = s;
-       this.render(s);
-       this.behave(s.behaviours, this.act);
-     });
+     this.emit(action);
     }
   }
 
-  private emit(action: Action): Promise<GameState> {
-    return this.socket['emit']('action', action);;
+  private emit(action: Action):void {
+    this.socket['emit']('action', action);
   }
 
   private saveState(state: GameState, action: Action): void {
@@ -93,17 +93,17 @@ export class Game {
       this.behave(s.behaviours, this.act);
     });
 
-    this.socket['on']("connect", function () {
+    this.socket['on']("connect", () => {
         this.render(this.state);
         console.log('connected');
     });
-    this.socket['on']("disconnect", function () {
+    this.socket['on']("disconnect", () => {
 	this.state = menuState();
         this.render(this.state);
         alert('disconnected');
     });
 
-    this.socket['on']("error", function () {
+    this.socket['on']("error", () => {
         this.state = menuState();
         alert('server erro');
     });

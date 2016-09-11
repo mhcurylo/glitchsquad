@@ -41,7 +41,7 @@ module.exports = {
         from: 'index.html',
       },
       {
-	from: 'index.js'
+	from: 'server.js'
       }
     ])
   ]
