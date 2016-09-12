@@ -86,7 +86,8 @@ function shootRifle(payload: {wc: WallCoords[]}, state: GameState): GameState {
 
 function shootPeople(x: number, y: number, w: WallCoords, t: number, state: GameState): {x: number, y: number, t: number, state: GameState} {
   const hex = state.hexMap[w.y][w.x];
-  const soldier = state.soldiers[state.active];
+  const {soldiers} = state;
+  const soldier = soldiers[state.active];
   if ((w.type === WALL.DOOROPEN || w.type === WALL.DOORCLOSED) && (soldier.x !== x || soldier.y !== y)) {
     t = t + 10;
   } else {
@@ -95,7 +96,7 @@ function shootPeople(x: number, y: number, w: WallCoords, t: number, state: Game
   if (w.x !== x || w.y !== y) {
     hex.soldiers.forEach((s) => {
       t = t + 5;
-      s.KIA ? '' : state = tryKill(s.i, t, state);
+      soldiers[s].KIA ? '' : state = tryKill(s, t, state);
     });
   }
   

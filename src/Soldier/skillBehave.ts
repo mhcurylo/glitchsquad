@@ -45,7 +45,8 @@ function skip(state: GameState): GameState {
 };
 
 function shootRifle(state: GameState): GameState {
-  const {x, y, player} = state.soldiers[state.active];
+  const {soldiers} = state;
+  const {x, y, player} = soldiers[state.active];
   if (!able(state, SKILL.SHOOT_RIFLE)) {
     return state;
   }
@@ -62,8 +63,9 @@ function shootRifle(state: GameState): GameState {
   return state;
   
   function canShootSomebody(coords: WallCoords[]): boolean {
-    return coords.findIndex(c => state.hexMap[c.y][c.x].soldiers.findIndex(s => s.player !== player && !s.KIA) > -1) > -1;
+    return coords.findIndex(c => state.hexMap[c.y][c.x].soldiers.findIndex(s => soldiers[s].player !== player && !soldiers[s].KIA) > -1) > -1;
   }
+
   
   
   function shootRifleBehave(wc: WallCoords[]): Behaviour {

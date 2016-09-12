@@ -4,7 +4,7 @@ import {Behaviour} from '../Engine/interfaces';
 export interface Hex {
   walls: WALL[];
   type: HEX;
-  soldiers: Soldier[];
+  soldiers: number[];
   char?: string;
   player?: PLAYER;
   acts: Behaviour[];
