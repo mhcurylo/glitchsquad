@@ -20,12 +20,14 @@ export class Game {
     this.behave = this.behave.bind(this);
     this.animate = this.animate.bind(this);
     this.act({do: DO.NOT, active: 0, player: 0, payload: {}});
+    this.initSocket();
   }
   
   private act(action: Action): void {
     if (this.state.local === true) {
       if (action.do === DO.ONLINE) {
-        this.initSocket(); 
+        console.log('DOING ONLINE', this.state.local);
+        this.socket['emit']('waiting'); 
       }
       if (action.do === DO.GLITCH || (this.actions.length > 4 && Math.random() > 0.985)) {
         return this.glitch(this.cloneDeep(this.initState), [...this.actions]);
@@ -42,6 +44,7 @@ export class Game {
       state.animations = [];
       this.state = state;
     } else {
+     console.log('em', action);
      this.emit(action);
     }
   }
@@ -87,6 +90,7 @@ export class Game {
   private initSocket() {
     this.socket = window['io']({ upgrade: false, transports: ["websocket"] });
     this.socket['on']('state', s => {
+      console.log('got new state', s);
       const stateP = s;
       this.state = stateP;
       this.render(stateP);
@@ -94,16 +98,16 @@ export class Game {
     });
 
     this.socket['on']("connect", () => {
-        this.render(this.state);
     });
     this.socket['on']("disconnect", () => {
 	this.state = menuState();
-        this.render(this.state);
+        this.act({do: DO.NOT, active: 0, player: 0, payload: {}});
         alert('disconnected');
     });
 
     this.socket['on']("error", () => {
         this.state = menuState();
+        this.act({do: DO.NOT, active: 0, player: 0, payload: {}});
         alert('server error');
     });
   }

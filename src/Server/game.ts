@@ -21,6 +21,11 @@ export class OnlineGame {
     this.act({do: DO.NOT, active: 0, player: 0, payload: {}});
   }
   
+  public end() {
+    this.removeUser(this.p0);
+    this.removeUser(this.p1);
+  }
+
   private act(action: Action): void {
     if (action.do === DO.GLITCH || (this.actions.length > 4 && Math.random() > 0.985)) {
       return this.glitch(this.cloneDeep(this.initState), [...this.actions]);
@@ -28,13 +33,18 @@ export class OnlineGame {
     const state = this.reducer(this.state, action);
     this.saveState(state, action);
     this.animate(state.animations
-      .findIndex(a => (a.payload && a.payload.do === DO.GLITCH)) > -1 ?
+      .find(a => (a.payload && a.payload.do === DO.GLITCH)) ?
         state.animations
           .filter(a => (a.payload && a.payload.do === DO.GLITCH)) 
         : state.animations, this.act);
     state.animations = [];
     this.state = state;
     this.emit(state);
+    if (action.do === DO.WIN) {
+      this.p0.waiting = false;
+      this.p1.waiting = false;
+      this.end();
+    }
   }
 
   private initPlayers() {
@@ -50,9 +60,11 @@ export class OnlineGame {
     this.p1.socket['on']('disconnect', () => this.end());
   }
 
-  private end() {
-    this.p0.socket ? this.p0.socket['removeAllListeners']('action') : '';
-    this.p1.socket ? this.p1.socket['removeAllListeners']('action') : '';
+  private removeUser(p: User) {
+    p.socket ? p.socket['removeAllListeners']('action') : '';
+    p.oponnent = undefined;
+    p.game = undefined;
+    p.asPlayer = undefined;
   }
 
   private emit(state):void {
@@ -87,9 +99,9 @@ export class OnlineGame {
       nstate.animations = nstate.animations
         .filter(a => a.payload ? a.payload.do !== DO.GLITCH : true);
       nstate.animations = nstate.animations
-        .findIndex(a => (a.payload && a.payload.do === DO.WIN)) > -1 ?
-        nstate.animations
-          .filter(a => (a.payload && a.payload.do === DO.SKIP)) : nstate.animations; 
+	.find(a => (a.payload && a.payload.do === DO.WIN)) ? 
+         [nstate.animations
+	.find(a => (a.payload && a.payload.do === DO.WIN))] : nstate.animations; 
       }
       this.animate(nstate.animations, this.act);
       this.state = nstate;

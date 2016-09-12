@@ -19,10 +19,13 @@ export function start(u0: User, u1: User) {
 }
 
 export function glitchSquadServer(socket: any) {
-  const usr: User = {socket};
+  const usr: User = {socket, waiting: false};
   users.push(usr);
-  findOponnent(usr);
 
+  socket['on']("waiting", function () {
+    usr.waiting = true;
+    findOponnent(usr);
+  });
   socket['on']("disconnect", function () {
     console.log("Disconnected: " + socket['id']);
     removeUser(usr);
@@ -33,10 +36,12 @@ export function glitchSquadServer(socket: any) {
 };
 
 function findOponnent(usr: User): void {
-  const oponnent = users.find(u => !u.oponnent && u !== usr);
+  const oponnent = users.find(u => !u.oponnent && u !== usr && u.waiting);
   if (oponnent) {
+    console.log('found oppo');
     start(usr, oponnent);
   } else {
+    console.log('not found oppo');
     usr.socket['emit']('state', waitingForOponnent());
   };
 }
@@ -45,8 +50,7 @@ function removeUser(usr: User): void {
   users.splice(users.indexOf(usr), 1);
 }
 function oponnentLeft(usr: User): void {
-  usr.game = undefined;
-  usr.asPlayer = undefined;
-  usr.oponnent = undefined;
+  usr.game.end();
+  usr.waiting = true;
   usr.socket['emit']('state', waitingForOponnentOponnentLeft());
 }

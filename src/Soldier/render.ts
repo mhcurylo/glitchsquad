@@ -2,7 +2,6 @@ import {Soldier} from './interfaces';
 import {GameState} from '../Engine/interfaces';
 
 export function squadRender(soldiers: number[], state: GameState, full?: boolean): string {
-  console.log(soldiers);
   return `<div class="soldiers">
 	${soldiers.reduce((p, c) => p + renderSoldier(state.soldiers[c]), '')}
 </div>`;
