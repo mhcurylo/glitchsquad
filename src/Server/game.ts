@@ -83,12 +83,14 @@ export class OnlineGame {
     } else {
       state.glitch = false;
       const nstate: GameState = this.reducer(state, action);
+      if (nstate.animations && nstate.animations.length > 0) {
       nstate.animations = nstate.animations
         .filter(a => a.payload ? a.payload.do !== DO.GLITCH : true);
       nstate.animations = nstate.animations
         .findIndex(a => (a.payload && a.payload.do === DO.WIN)) > -1 ?
         nstate.animations
           .filter(a => (a.payload && a.payload.do === DO.SKIP)) : nstate.animations; 
+      }
       this.animate(nstate.animations, this.act);
       this.state = nstate;
       this.emit(nstate);

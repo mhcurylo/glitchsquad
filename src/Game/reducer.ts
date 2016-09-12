@@ -38,6 +38,7 @@ export function gameReducer(state: GameState, action: Action): GameState {
 }
 
 export function nextSoldier(state: GameState): GameState {
+  console.log('soldiers??');
   const {soldiers, active} = state;
   if (active > -1 && soldiers.findIndex(s => (s.player !== soldiers[active].player && !s.KIA)) === -1) {
     return win(soldiers[active].player, state);
