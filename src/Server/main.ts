@@ -27,7 +27,6 @@ export function glitchSquadServer(socket: any) {
     findOponnent(usr);
   });
   socket['on']("disconnect", function () {
-    console.log("Disconnected: " + socket['id']);
     removeUser(usr);
     if (usr.oponnent) {
       oponnentLeft(usr.oponnent);
@@ -38,10 +37,8 @@ export function glitchSquadServer(socket: any) {
 function findOponnent(usr: User): void {
   const oponnent = users.find(u => !u.oponnent && u !== usr && u.waiting);
   if (oponnent) {
-    console.log('found oppo');
     start(usr, oponnent);
   } else {
-    console.log('not found oppo');
     usr.socket['emit']('state', waitingForOponnent());
   };
 }

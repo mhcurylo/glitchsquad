@@ -15,10 +15,8 @@ export function menuReducer(state: GameState, action: Action): GameState {
     case DO.PLAYGAME:
       return gamePlay();
     case DO.ONLINE:
-      console.log('ONLINE');
       state.hexMap = hexMap;
       state.local = false;
-      state.animations = [{anime: ANIME.DELAY200, payload: {do: DO.ONLINE, payload: {}}}];
       return state;
     default:
       return state;

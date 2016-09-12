@@ -26,7 +26,6 @@ export class Game {
   private act(action: Action): void {
     if (this.state.local === true) {
       if (action.do === DO.ONLINE) {
-        console.log('DOING ONLINE', this.state.local);
         this.socket['emit']('waiting'); 
       }
       if (action.do === DO.GLITCH || (this.actions.length > 4 && Math.random() > 0.985)) {
@@ -44,7 +43,6 @@ export class Game {
       state.animations = [];
       this.state = state;
     } else {
-     console.log('em', action);
      this.emit(action);
     }
   }
@@ -90,7 +88,6 @@ export class Game {
   private initSocket() {
     this.socket = window['io']({ upgrade: false, transports: ["websocket"] });
     this.socket['on']('state', s => {
-      console.log('got new state', s);
       const stateP = s;
       this.state = stateP;
       this.render(stateP);
