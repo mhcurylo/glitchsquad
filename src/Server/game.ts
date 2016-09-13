@@ -1,6 +1,7 @@
 import {Action, Behaviour, GameState, Animation} from '../Engine/interfaces';
 import {DO, PLAYER} from '../Enums/enums';
 import {User} from './interfaces';
+import {cloneDeep} from '../Engine/make';
 
 export class OnlineGame {
   initState: GameState;
@@ -16,21 +17,24 @@ export class OnlineGame {
     this.reducer = this.reducer.bind(this);
     this.animate = this.animate.bind(this);
     this.initPlayers();
-    this.initState = this.cloneDeep(state); 
+    this.initState = cloneDeep(state); 
     this.actions = []; 
     this.act({do: DO.NOT, active: 0, player: 0, payload: {}});
   }
   
   public end() {
-    this.removeUser(this.p0);
-    this.removeUser(this.p1);
+    this.p0 ? this.removeUser(this.p0) : '';
+    this.p1 ? this.removeUser(this.p1) : '';
+    this.p0 = undefined;
+    this.p1 = undefined;
   }
 
   private act(action: Action): void {
     if (action.do === DO.GLITCH || (this.actions.length > 4 && Math.random() > 0.985)) {
-      return this.glitch(this.cloneDeep(this.initState), [...this.actions]);
+      return this.glitch(cloneDeep(this.initState), [...this.actions]);
     }
-    const state = this.reducer(this.state, action);
+    const state = this.reducer((this.state), action);
+    console.log('DID WIN?', action.do === DO.WIN);
     this.saveState(state, action);
     this.animate(state.animations
       .find(a => (a.payload && a.payload.do === DO.GLITCH)) ?
@@ -40,12 +44,15 @@ export class OnlineGame {
     state.animations = [];
     this.state = state;
     this.emit(state);
-    if (action.do === DO.WIN) {
-      this.p0.waiting = false;
-      this.p1.waiting = false;
-      this.end();
-    }
   }
+ 
+  private win() {
+    console.log('WIN!!!');
+    this.p0.waiting = false;
+    this.p1.waiting = false;
+    this.end();
+  }
+ 
 
   private initPlayers() {
     this.p0.asPlayer = PLAYER.ONE;
@@ -75,17 +82,13 @@ export class OnlineGame {
   }
 
   private saveState(state: GameState, action: Action): void {
-    if (action.do === DO.PLAYGAME) {
-      this.initState = this.cloneDeep(state); 
-      this.actions = []; 
-    } else {
-      action.do !== DO.WIN ? this.actions.push(action) : '';
-    }
+    action.do !== DO.WIN ? this.actions.push(action) : '';
   }
 
   private glitch(state: GameState, actions: Action[]): void {
     const action = actions.shift();
     state.active = action.active;
+    console.log('DID WIN GLICZ TIME?', action.do === DO.WIN);
     if (actions.length > 0) {
       state.glitch = true;
       const nstate: GameState = this.reducer(state, action);
@@ -101,15 +104,14 @@ export class OnlineGame {
       nstate.animations = nstate.animations
 	.find(a => (a.payload && a.payload.do === DO.WIN)) ? 
          [nstate.animations
-	.find(a => (a.payload && a.payload.do === DO.WIN))] : nstate.animations; 
+	  .find(a => (a.payload && a.payload.do === DO.WIN))] : nstate.animations; 
       }
       this.animate(nstate.animations, this.act);
       this.state = nstate;
       this.emit(nstate);
+      if (action.do === DO.WIN) {
+        this.win();
+      }
     }
-  }
-
-  private cloneDeep<T>(soa: T): T {
-    return JSON.parse(JSON.stringify(soa));
   }
 }

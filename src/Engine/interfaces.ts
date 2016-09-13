@@ -28,7 +28,7 @@ export interface GameState {
   animations: Animation[];
   behaviours: Behaviour[];
   local: boolean;
-  soldiers?: Soldier[];
+  soldiers: Soldier[];
   lastWinner: PLAYER | boolean;
   glitch?: boolean;
   active?: number;

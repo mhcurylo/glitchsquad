@@ -22,7 +22,10 @@ export function makeAnimate(animators: Array<(animation: Animation, doIt: (Actio
 
 export function makeReducer(reducers: Array<(GameState, Action) => GameState>) {
   return function(state: GameState, action: Action): GameState {
-    return reducers.reduce((p, c) => c(p, action), state);
+    return reducers.reduce((p, c) => c(p, action), cloneDeep(state));
   }
 }
 
+export function cloneDeep<T>(soa: T): T {
+  return JSON.parse(JSON.stringify(soa));
+}

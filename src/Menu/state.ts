@@ -28,6 +28,7 @@ export function menuState(winner?: PLAYER, soldiers?: Soldier[]): GameState {
     local: true,
     hexMap: trimMap(soldiers ? mapCodeNames(winner, soldiers) : hexMap),
     behaviours: b,
+    soldiers: [],
     animations: [],
     lastWinner: winner ? winner : false
   }

@@ -9,15 +9,8 @@ import {menuState} from '../Menu/state';
 
 export function gameReducer(state: GameState, action: Action): GameState {
   switch (action.do) {
-    case DO.CHECKLEVEL:
-      if (mapCheck(state.hexMap)) {
-        state.animations = [];
-      } else {
-        state.hexMap = mapGen();
-      }
-      return state;
     case DO.SKIP:
-      return (state.soldiers && state.soldiers.length > 0) ? nextSoldier(state) : state;
+      return nextSoldier(state);
     case DO.MOVE:
       return doerAble(state) ? moveSoldier(action.payload.x, action.payload.y, state) : nextSoldier(state);
     case DO.HACK:
@@ -39,7 +32,10 @@ export function gameReducer(state: GameState, action: Action): GameState {
 
 export function nextSoldier(state: GameState): GameState {
   const {soldiers, active} = state;
-  if (active > -1 && soldiers.findIndex(s => (s.player !== soldiers[active].player && !s.KIA)) === -1) {
+  if (!soldiers || soldiers.length !== 8) {
+    return state;
+  }
+  if (active > -1 && !soldiers.find(s => (s.player !== soldiers[active].player && !s.KIA))) {
     return win(soldiers[active].player, state);
   }
   state.active = (state.active + 1) % state.soldiers.length;

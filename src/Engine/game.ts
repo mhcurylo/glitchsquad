@@ -1,6 +1,7 @@
 import {Action, Behaviour, GameState, Animation} from './interfaces';
 import {DO} from '../Enums/do';
 import {menuState} from '../Menu/state';
+import {cloneDeep} from './make';
 declare const io;
 
 export class Game {
@@ -24,12 +25,16 @@ export class Game {
   }
   
   private act(action: Action): void {
+    if (action.do === DO.WIN) {
+      console.log('WON', action);
+    }
     if (this.state.local === true) {
       if (action.do === DO.ONLINE) {
+        console.log('EMITING THE ONLINE STUFF');
         this.socket['emit']('waiting'); 
       }
       if (action.do === DO.GLITCH || (this.actions.length > 4 && Math.random() > 0.985)) {
-        return this.glitch(this.cloneDeep(this.initState), [...this.actions]);
+        return this.glitch(cloneDeep(this.initState), [...this.actions]);
       }
       const state = this.reducer(this.state, action);
       this.saveState(state, action);
@@ -53,7 +58,7 @@ export class Game {
 
   private saveState(state: GameState, action: Action): void {
     if (action.do === DO.PLAYGAME) {
-      this.initState = this.cloneDeep(state); 
+      this.initState = cloneDeep(state); 
       this.actions = []; 
     } else {
       action.do !== DO.WIN ? this.actions.push(action) : '';
@@ -109,7 +114,4 @@ export class Game {
     });
   }
 
-  private cloneDeep<T>(soa: T): T {
-    return JSON.parse(JSON.stringify(soa));
-  }
 }

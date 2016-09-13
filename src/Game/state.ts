@@ -11,7 +11,7 @@ export function gamePlay(): GameState {
     behaviours: [],
     animations: [{anime: ANIME.CHECKLEVEL, payload: {}}],
     soldiers: [],
-    active: -1,
+    active:-1,
     lastWinner: false,
     local: true,
     disc: [],

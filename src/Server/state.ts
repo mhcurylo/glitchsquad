@@ -28,6 +28,7 @@ function loadingScreen(smap: string[]) {
     hexMap: trimMap(smap.map((l, y) => toHex(y, l))),
     behaviours: [],
     animations: [],
+    soldiers: [],
     lastWinner: false
   }
 }
