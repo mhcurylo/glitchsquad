@@ -5,16 +5,16 @@ import {Hex} from '../Hex/interfaces';
 import {symbolHex} from '../Hex/hexCreate';
 import {trimMap} from '../Game/mapGen';
 
-const b = [3, 4, 5, 6, 7, 8, 9, 10].map(n => hotseat(`hex-${n}-4`))
-            .concat([1, 2, 3, 4, 5, 6, 7].map(n => online(`hex-${n}-5`)));
+const b = [3, 4, 5, 6, 7, 8, 9].map(n => hotseat(`hex-${n}-4`))
+            .concat([1, 2, 3, 4, 5, 6].map(n => online(`hex-${n}-5`)));
   
 const hexMap = [
   '####   ## ',
   '### Glitch',
   '##  Squad',
   '##  ',
-  '####HOTSEAT',
-  '# ONLINE###'
+  '###HOTSEAT',
+  '#ONLINE###'
 ].map((l, y) => toHex(y, l));
 
 const multi = [
@@ -62,8 +62,8 @@ function online(id: string): Behaviour {
 
 function mapCodeNames(winner: PLAYER, soldiers: Soldier[]): Hex[][] {
   return soldiers.map((s, i) => s.code + '#' + s.name)
-    .concat(['#P' + (winner + 1) + '#HOTSEAT',
-       '# ONLINE###'
+    .concat(['P' + (winner + 1) + '#HOTSEAT',
+       '#ONLINE###'
     ])
     .map((l, x) => toHex(x, l));
 }

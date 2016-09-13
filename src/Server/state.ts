@@ -5,20 +5,20 @@ import {toHex} from '../Menu/state';
 
 const wait = [
   '#GLITCH##  ',
-  '###SQUAD###',
-  'Waiting for',
-  '## ONLINE #',
-  '#OPONNENT #',
-  '#online####'
+  '###SQUAD#',
+  'Waiting ',
+  'forONLINE',
+  '#OPONNENT',
+  '#online##'
 ];
 
 const left = [
-  '#OPONNENT##',
+  '#OPONNENT#',
   '###LEFT### ',
-  'Waiting for',
-  '## ONLINE #',
-  '#OPONNENT #',
-  'GLITCHSQUAD'
+  'Waitingfor',
+  '## ONLINE#',
+  '#OPONNENT#',
+  'GLITCHSQDD'
 ];
 
 function loadingScreen(smap: string[]) {
