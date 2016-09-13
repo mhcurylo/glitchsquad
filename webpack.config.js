@@ -42,10 +42,13 @@ module.exports = {
     new ExtractTextPlugin("[name].css"),
     new Copy([
       {
-        from: 'index.html',
+        from: 'index.html'
       },
       {
-        from: 'server.js',
+        from: 'server.js'
+      },
+      {
+	from: 'favicon.ico'
       }
     ])
   ]
