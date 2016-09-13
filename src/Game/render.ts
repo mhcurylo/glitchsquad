@@ -8,11 +8,9 @@ export function gameRender(state: GameState): string {
 }
 
 function render(state: GameState): string {
-    return `
-    <div class="game-play ${state.glitch ? 'glitch' : ''}">
-      <div class="game-hex"> ${mapRender(state)}</div>
-      <div class="squads-display"> ${squadRender([0, 1, 2, 3, 4, 5, 6, 7], state, true)}</div>
-    </div>
- `;
+    return `<div class="game-play ${state.glitch ? 'glitch' : ''}">` +
+      `<div class="game-hex"> ${mapRender(state)}</div>` +
+      `<div class="squads-display"> ${squadRender([0, 1, 2, 3, 4, 5, 6, 7], state, true)}</div>` +
+    `</div>`;
 }
 
