@@ -67,17 +67,19 @@ export class OnlineGame {
   }
 
   private removeUser(p: User) {
-    p.socket ? p.socket['removeAllListeners']('action') : '';
-    p.oponnent = undefined;
-    p.game = undefined;
-    p.asPlayer = undefined;
+    if (p) {
+      p.socket ? p.socket['removeAllListeners']('action') : '';
+      p.oponnent = undefined;
+      p.game = undefined;
+      p.asPlayer = undefined;
+    }
   }
 
   private emit(state):void {
     const state0 = state;
     const state1 = state;    
-    this.p0.socket['emit']('state', state0);
-    this.p1.socket['emit']('state', state1);
+    this.p0 ? this.p0.socket['emit']('state', state0) : '';
+    this.p1 ? this.p1.socket['emit']('state', state1) : '';
   }
 
   private saveState(state: GameState, action: Action): void {
