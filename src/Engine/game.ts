@@ -25,12 +25,8 @@ export class Game {
   }
   
   private act(action: Action): void {
-    if (action.do === DO.WIN) {
-      console.log('WON', action);
-    }
     if (this.state.local === true) {
       if (action.do === DO.ONLINE) {
-        console.log('EMITING THE ONLINE STUFF');
         this.socket['emit']('waiting'); 
       }
       if (action.do === DO.GLITCH || (this.actions.length > 4 && Math.random() > 0.985)) {

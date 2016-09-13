@@ -36,7 +36,7 @@ export function nextSoldier(state: GameState): GameState {
     return state;
   }
   if (active > -1 && !soldiers.find(s => (s.player !== soldiers[active].player && !s.KIA))) {
-    return win(soldiers[active].player, state);
+    return delayWin(soldiers[active].player, state);
   }
   state.active = (state.active + 1) % state.soldiers.length;
   const soldier = state.soldiers[state.active];
@@ -127,7 +127,7 @@ function wallOpen(x, y, d, state) {
 }
 
 function delayWin(winner: PLAYER, state: GameState): GameState {
-  state.animations.push({anime: ANIME.DELAY500, payload: {do: DO.WIN, active: state.active, player: winner, payload: {winner: winner}}});
+  state.animations.push({anime: ANIME.DELAY200, payload: {do: DO.WIN, active: state.active, player: winner, payload: {winner: winner}}});
   return state;
 }
 

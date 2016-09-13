@@ -34,7 +34,6 @@ export class OnlineGame {
       return this.glitch(cloneDeep(this.initState), [...this.actions]);
     }
     const state = this.reducer((this.state), action);
-    console.log('DID WIN?', action.do === DO.WIN);
     this.saveState(state, action);
     this.animate(state.animations
       .find(a => (a.payload && a.payload.do === DO.GLITCH)) ?
@@ -44,10 +43,10 @@ export class OnlineGame {
     state.animations = [];
     this.state = state;
     this.emit(state);
+    action.do === DO.WIN ? this.win() : '';
   }
  
   private win() {
-    console.log('WIN!!!');
     this.p0.waiting = false;
     this.p1.waiting = false;
     this.end();
@@ -88,7 +87,6 @@ export class OnlineGame {
   private glitch(state: GameState, actions: Action[]): void {
     const action = actions.shift();
     state.active = action.active;
-    console.log('DID WIN GLICZ TIME?', action.do === DO.WIN);
     if (actions.length > 0) {
       state.glitch = true;
       const nstate: GameState = this.reducer(state, action);
@@ -109,9 +107,7 @@ export class OnlineGame {
       this.animate(nstate.animations, this.act);
       this.state = nstate;
       this.emit(nstate);
-      if (action.do === DO.WIN) {
-        this.win();
-      }
+      action.do === DO.WIN ? this.win() : '';
     }
   }
 }

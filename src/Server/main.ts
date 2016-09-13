@@ -25,7 +25,6 @@ export function glitchSquadServer(socket: any) {
   socket['on']("waiting", function () {
     usr.waiting = true;
     findOponnent(usr);
-    console.log(users.map((u, i) => i + ' --' +  (u.waiting ? ' waiting' : ' busy') + (u.oponnent ? ' oponnent' : ' free')));
   });
   socket['on']("disconnect", function () {
     removeUser(usr);
