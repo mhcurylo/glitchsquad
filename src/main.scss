@@ -30,9 +30,9 @@ body {
   flex-direction: column;
 }
 
-@media screen and (max-width: 1360px) {
+@media screen and (max-width: 1440px) {
   #glitchsquad {
-    height: 500px;
+    height: 400px;
   }
   .game-play {
     flex-direction: row;
@@ -312,7 +312,7 @@ body {
       margin-top: 3px;
       margin-bottom: 3px;
       padding: 2px;
-      background: $white;
+      background: $lightgrey;
       color: $grey;
       border: 4px $lightgrey solid;
       transition: all 0.5;
@@ -420,5 +420,18 @@ body {
     border-radius: 6px;
     line-height: 1;
     border: 1px $grey solid;
+  }
+}
+.online{
+  .s-m-e.s-act {
+    border-color: $grey !important;
+    .acts div {
+      border-color: $grey !important;
+      background: $grey !important;
+      color: $lightgrey !important;
+    }
+    .s-player {
+      color: $grey;
+    }
   }
 }
