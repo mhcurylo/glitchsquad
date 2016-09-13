@@ -9,6 +9,7 @@ $green: #23f93B;
 
 body {
   background-color: $blue;
+  font-family: "Impact";
 }
 
 #glitchsquad {
@@ -283,22 +284,22 @@ body {
 
 .soldier {
   position: relative;
-  outline: 4px $lightgrey solid;
+  border: 4px $lightgrey solid;
   height: 104px;
   width: 96px;
-  margin: 8px;
+  margin: 4px;
   margin-bottom: 110px;
   z-index: 6;
   display: inline-block;
   background: white;
   text-align: center;
   .s-code {
-    font-size: 56px;
+    font-size: 50px;
     font-weight: 600;
   }
   .s-name {
-    font-size: 32px;
-    line-height: 0.9;
+    font-size: 26px;
+    line-height: 1.5;
   }
   .acts {
     position: absolute;
@@ -308,12 +309,12 @@ body {
     font-size: 18px;
     text-align: center;
     div {
-      margin-top: 6px;
-      margin-bottom: 6px;
+      margin-top: 3px;
+      margin-bottom: 3px;
       padding: 2px;
       background: $white;
       color: $grey;
-      outline: 2px $grey solid;
+      border: 4px $lightgrey solid;
       transition: all 0.5;
     }
     div:hover:not(.ap) {
@@ -345,13 +346,13 @@ body {
 }
 
 .s-kia {
-  outline-color: $grey;
+  border-color: $grey;
   background: $darkred;
   color: $red;
 }
 
 .s-act {
-  outline-color: $darkred;
+  border-color: $darkred;
   transition: outline-color .7s ease-out;
 }
 
@@ -387,20 +388,21 @@ body {
   left: -20px;
   transform: rotate(-90deg);
   .soldier {
-    outline: 1px $lightgrey solid;
+    border: 1px $lightgrey solid;
     width: 24px;
     height: 26px;
-    margin: 2px;
+    margin: 1px;
     text-align: center;
     .s-code {
       font-size: 14px;
     }
     .s-name {
       font-size: 8px;
+      line-height: 0.9;
     }
   }
   .soldier.s-act {
-    outline: 2px $darkred solid;
+    border: 2px $darkred solid;
   }
   .s-data::after {
     content: 'D';
