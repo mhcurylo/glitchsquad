@@ -76,8 +76,10 @@ export class OnlineGame {
   }
 
   private emit(state):void {
-    const state0 = state;
-    const state1 = state;    
+    const state0 = cloneDeep(state);
+    const state1 = cloneDeep(state);
+    state0.iam = PLAYER.ONE;
+    state1.iam = PLAYER.TWO;    
     this.p0 ? this.p0.socket['emit']('state', state0) : '';
     this.p1 ? this.p1.socket['emit']('state', state1) : '';
   }

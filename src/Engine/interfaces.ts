@@ -30,6 +30,7 @@ export interface GameState {
   local: boolean;
   soldiers: Soldier[];
   lastWinner: PLAYER | boolean;
+  iam?: PLAYER;
   glitch?: boolean;
   active?: number;
   evac?: number[][];

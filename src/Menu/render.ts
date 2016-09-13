@@ -7,7 +7,6 @@ export function menuRender(state: GameState): string {
   
   function render(state: GameState): string {
     return `
-    <div class="info-header">Glitchsquad 2016</div>
     <div class="menu-hex"> ${mapRender(state)}
     <div>
  `;

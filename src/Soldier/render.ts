@@ -10,6 +10,7 @@ export function squadRender(soldiers: number[], state: GameState, full?: boolean
     const act = soldier.i === state.active;
     return `<div class="soldier s-t-${soldier.type}
 			      s-p-${soldier.player} 
+                              s-m-${soldier.player === state.iam ? 'i' : 'e'}
 			      ${soldier.KIA ? ' s-kia' : ''}
 			      ${act ? ' s-act' : ''}
 			      ${soldier.disc ? ' s-data' : ''}">
